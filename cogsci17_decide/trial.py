@@ -46,7 +46,7 @@ class DecisionTrial(pytry.NengoTrial):
         smoothed = np.mean(ss_data, axis=0)
 
         return dict(
-            correct=np.argmax(smoothed) == 0,
+            correct=np.all(np.argmax(ss_data, axis=1) == 0),
             winner_err=smoothed[0] - 1.,
             runnerup_err=max(0., np.max(smoothed[1:])),
             runnerup_highest_err=max(0., np.max(sim.data[self.probe][:, 1:]))
