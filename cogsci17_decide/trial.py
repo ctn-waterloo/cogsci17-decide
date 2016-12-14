@@ -44,10 +44,14 @@ class DecisionTrial(pytry.NengoTrial):
 
         ss_data = sim.data[self.probe][sim.trange() > 0.5, :]
         smoothed = np.mean(ss_data, axis=0)
+        winner = np.argmax(smoothed)
+        mask = np.ones(p.d, dtype=bool)
+        mask[winner] = False
 
         return dict(
-            correct=np.all(np.argmax(ss_data, axis=1) == 0),
-            winner_err=smoothed[0] - 1.,
-            runnerup_err=max(0., np.max(smoothed[1:])),
-            runnerup_highest_err=max(0., np.max(sim.data[self.probe][:, 1:]))
+            correct=np.all(
+                np.argmax(ss_data, axis=1) == 0) and smoothed[0] > 0.1,
+            winner_err=np.max(smoothed) - 1.,
+            runnerup_err=max(0., np.max(smoothed[mask])),
+            runnerup_highest_err=max(0., np.max(sim.data[self.probe][:, mask]))
         )
