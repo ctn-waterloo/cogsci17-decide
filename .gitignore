@@ -1,5 +1,7 @@
 data
+psy-work
 
+.doit.db
 .ipynb_checkpoints
 .*.swp
 *.egg-info
