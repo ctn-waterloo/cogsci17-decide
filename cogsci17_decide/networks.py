@@ -10,7 +10,7 @@ def UsherMcClelland(d, n_neurons, dt):
     tau_actual = 0.1
     a = np.exp(-dt / tau_actual)
 
-    # eqn (4) ignoring trunctaion, put into the canonical form:
+    # eqn (4) ignoring truncation, put into the canonical form:
     #   x[t+dt] = Ax[t] + Bu
     inhibit = np.ones((d, d))
     inhibit[np.diag_indices(d)] = 0.
