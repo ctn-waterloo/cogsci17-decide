@@ -83,6 +83,6 @@ def DriftDiffusion(d, n_neurons, dt):
             bias, thresholding.input, transform=-threshold * np.ones((d, 1)))
         nengo.Connection(
             thresholding.heaviside, x,
-            transform=-2. + 2.5 * np.eye(d) / (1 - a), synapse=tau_actual)
+            transform=(-2. + 2.5 * np.eye(d)) / (1 - a), synapse=tau_actual)
 
     return net
