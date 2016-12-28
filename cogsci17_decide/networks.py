@@ -5,7 +5,7 @@ import numpy as np
 def UsherMcClelland(d, n_neurons, dt):
     k = 1.
     beta = 1.
-    tau_model = 0.01
+    tau_model = 0.1
 
     tau_actual = 0.1
     a = np.exp(-dt / tau_actual)
@@ -40,7 +40,7 @@ def UsherMcClelland(d, n_neurons, dt):
 def DriftDiffusion(d, n_neurons, dt):
     k = 0.
     beta = 0.
-    tau_model = 0.01
+    tau_model = 0.1
 
     tau_actual = 0.1
     a = np.exp(-dt / tau_actual)
@@ -83,6 +83,6 @@ def DriftDiffusion(d, n_neurons, dt):
             bias, thresholding.input, transform=-threshold * np.ones((d, 1)))
         nengo.Connection(
             thresholding.heaviside, x,
-            transform=(-2. + 2.5 * np.eye(d)) / (1 - a), synapse=tau_actual)
+            transform=-2. + 3. * np.eye(d), synapse=tau_actual)
 
     return net
