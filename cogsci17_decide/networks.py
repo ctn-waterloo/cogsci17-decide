@@ -20,7 +20,7 @@ def UsherMcClelland(d, n_neurons, dt):
 
     with nengo.Network() as net:
         net.input = nengo.Node(size_in=d)
-        x = nengo.Ensemble(d * n_neurons, d)
+        x = nengo.Ensemble(d * n_neurons, d, radius=np.sqrt(d))
 
         for i in range(d):
             nengo.Connection(
@@ -58,9 +58,11 @@ def DriftDiffusion(d, n_neurons, dt):
     assert n_neurons_x > 0
     threshold = 0.8
 
+    print(B / (1 - a))
+    print((A - a * I) / (1 - a))
     with nengo.Network() as net:
         net.input = nengo.Node(size_in=d)
-        x = nengo.Ensemble(d * n_neurons, d)
+        x = nengo.Ensemble(d * n_neurons, d, radius=np.sqrt(d))
 
         for i in range(d):
             nengo.Connection(
