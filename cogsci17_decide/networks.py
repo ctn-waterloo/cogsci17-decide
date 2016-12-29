@@ -20,19 +20,19 @@ def UsherMcClelland(d, n_neurons, dt):
 
     with nengo.Network() as net:
         net.input = nengo.Node(size_in=d)
-        x = nengo.Ensemble(d * n_neurons, d, radius=np.sqrt(d))
-
-        for i in range(d):
-            nengo.Connection(
-                net.input[i], x[i],
-                transform=B / (1 - a),  # discrete principle 3
-                synapse=tau_actual)
+        x = nengo.networks.EnsembleArray(n_neurons, d)
 
         nengo.Connection(
-            x, x, transform=(A - a * I) / (1 - a),  # discrete principle 3
+            net.input, x.input,
+            transform=B / (1 - a),  # discrete principle 3
             synapse=tau_actual)
 
-        net.output = x
+        nengo.Connection(
+            x.output, x.input,
+            transform=(A - a * I) / (1 - a),  # discrete principle 3
+            synapse=tau_actual)
+
+        net.output = x.output
 
     return net
 
@@ -62,16 +62,16 @@ def DriftDiffusion(d, n_neurons, dt):
     print((A - a * I) / (1 - a))
     with nengo.Network() as net:
         net.input = nengo.Node(size_in=d)
-        x = nengo.Ensemble(d * n_neurons, d, radius=np.sqrt(d))
-
-        for i in range(d):
-            nengo.Connection(
-                net.input[i], x[i],
-                transform=B / (1 - a),  # discrete principle 3
-                synapse=tau_actual)
+        x = nengo.networks.EnsembleArray(n_neurons, d)
 
         nengo.Connection(
-            x, x, transform=(A - a * I) / (1 - a),  # discrete principle 3
+            net.input, x.input,
+            transform=B / (1 - a),  # discrete principle 3
+            synapse=tau_actual)
+
+        nengo.Connection(
+            x.output, x.input,
+            transform=(A - a * I) / (1 - a),  # discrete principle 3
             synapse=tau_actual)
 
         with nengo.presets.ThresholdingEnsembles(0.):
@@ -80,11 +80,11 @@ def DriftDiffusion(d, n_neurons, dt):
 
         bias = nengo.Node(1.)
 
-        nengo.Connection(x, thresholding.input)
+        nengo.Connection(x.output, thresholding.input)
         nengo.Connection(
             bias, thresholding.input, transform=-threshold * np.ones((d, 1)))
         nengo.Connection(
-            thresholding.heaviside, x,
+            thresholding.heaviside, x.input,
             transform=-2. + 3. * np.eye(d), synapse=tau_actual)
 
     return net
