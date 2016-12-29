@@ -36,13 +36,13 @@ class DecisionTrial(pytry.NengoTrial):
         return model
 
     def evaluate(self, p, sim, plt):
-        sim.run(1.)
+        sim.run(2.)
 
         if plt is not None:
             plt.plot(sim.trange(), sim.data)
             plt.xlabel("Time [s]")
 
-        ss_data = sim.data[self.probe][sim.trange() > 0.5, :]
+        ss_data = sim.data[self.probe][sim.trange() > 1., :]
         smoothed = np.mean(ss_data, axis=0)
         winner = np.argmax(smoothed)
         mask = np.ones(p.d, dtype=bool)
