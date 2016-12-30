@@ -51,8 +51,9 @@ class DecisionTrial(pytry.NengoTrial):
         if runnerup >= winner:
             runnerup += 1
 
-        correct = np.all(
-            np.argmax(ss_data, axis=1) == 0) and smoothed[0] > 0.1,
+        correct = (
+            np.all(np.argmax(ss_data, axis=1) == 0) and
+            smoothed[0] > 0.1 and np.all(smoothed[1:] < 0.3))
         t = np.nan
         if correct:
             risen = np.flatnonzero(
