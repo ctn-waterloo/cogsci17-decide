@@ -50,7 +50,7 @@ def DriftDiffusion(d, n_neurons, dt):
     inhibit = np.ones((d, d))
     inhibit[np.diag_indices(d)] = 0.
     I = np.eye(d)
-    B = 0.2 * dt / tau_model
+    B = 1.0 * dt / tau_model
     A = (-k * I - beta * inhibit) * dt / tau_model + I
 
     n_neurons_threshold = 50
