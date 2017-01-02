@@ -51,16 +51,18 @@ class DecisionTrial(pytry.NengoTrial):
         if runnerup >= winner:
             runnerup += 1
 
-        correct = (
-            np.all(np.argmax(ss_data, axis=1) == 0) and
-            smoothed[0] > 0.1 and np.all(smoothed[1:] < 0.3))
+        decided = (
+            np.all(ss_data[:, winner] > 0.2) and
+            np.all(ss_data[:, winner] - ss_data[:, runnerup] > 0.))
+        correct = decided and np.all(np.argmax(ss_data, axis=1) == 0)
         t = np.nan
-        if correct:
+        if decided:
             risen = np.flatnonzero(
-                sim.data[self.probe][:, winner] > 1. - 1. / np.e)
+                sim.data[self.probe][:, winner] > .2)
             if len(risen) > 0:
                 fall = np.flatnonzero(
-                    sim.data[self.probe][:, runnerup] > 1. / np.e)
+                    sim.data[self.probe][:, winner] -
+                    np.max(sim.data[self.probe], axis=1) < .0)
                 idx = risen[0]
                 if np.any(fall > idx):
                     idx = fall[-1]
@@ -70,6 +72,7 @@ class DecisionTrial(pytry.NengoTrial):
                     t = sim.trange()[idx]
 
         return dict(
+            decided=decided,
             correct=correct,
             t=t,
             winner_err=np.max(smoothed) - 1.,
