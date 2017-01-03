@@ -58,8 +58,6 @@ def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
     assert n_neurons_x > 0
     threshold = 0.8
 
-    print(B / (1 - a))
-    print((A - a * I) / (1 - a))
     with nengo.Network() as net:
         net.input = nengo.Node(size_in=d)
         x = nengo.networks.EnsembleArray(n_neurons_x, d)
