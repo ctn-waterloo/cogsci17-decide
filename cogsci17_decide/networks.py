@@ -62,7 +62,7 @@ def DriftDiffusion(d, n_neurons, dt):
     print((A - a * I) / (1 - a))
     with nengo.Network() as net:
         net.input = nengo.Node(size_in=d)
-        x = nengo.networks.EnsembleArray(n_neurons, d)
+        x = nengo.networks.EnsembleArray(n_neurons_x, d)
 
         nengo.Connection(
             net.input, x.input,
@@ -75,7 +75,7 @@ def DriftDiffusion(d, n_neurons, dt):
             synapse=tau_actual)
 
         with nengo.presets.ThresholdingEnsembles(0.):
-            thresholding = nengo.networks.EnsembleArray(n_neurons, d)
+            thresholding = nengo.networks.EnsembleArray(n_neurons_threshold, d)
             net.output = thresholding.add_output('heaviside', lambda x: x > 0.)
 
         bias = nengo.Node(1.)
