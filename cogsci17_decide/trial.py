@@ -14,23 +14,31 @@ class DecisionTrial(pytry.NengoTrial):
         self.param("input baseline", baseline=0.1)
         self.param("target separation", target_sep=0.2)
         self.param("noise std", noise=0.)
+        self.param("input scaling", scale=1.)
+
+        self.param("Share thresholding intercepts in DD network.",
+                   share_thresholding_intercepts=False)
 
     def model(self, p):
         with nengo.Network(seed=p.seed) as model:
-            decide = getattr(cogsci17_decide.networks, p.network)(
-                d=p.d, n_neurons=p.N, dt=p.dt)
+            net_args = dict(d=p.d, n_neurons=p.N, dt=p.dt)
+            if p.share_thresholding_intercepts:
+                net_args['share_thresholding_intercepts'] = True
+            decide = getattr(cogsci17_decide.networks, p.network)(**net_args)
 
             stimulus = p.baseline * np.ones(p.d)
             stimulus[0] += p.target_sep
             stimulus_node = nengo.Node(stimulus)
-            nengo.Connection(stimulus_node, decide.input, synapse=None)
+            nengo.Connection(stimulus_node, decide.input, synapse=None,
+                             transform=p.scale)
 
             if p.noise > 0.:
                 noise_node = nengo.Node(nengo.processes.WhiteNoise(
                     nengo.dists.Gaussian(.0, p.noise)), size_out=p.d)
             else:
                 noise_node = nengo.Node(np.zeros(p.d))
-            nengo.Connection(noise_node, decide.input, synapse=None)
+            nengo.Connection(noise_node, decide.input, synapse=None,
+                             transform=p.scale)
 
             self.probe = nengo.Probe(decide.output, synapse=0.01)
         return model

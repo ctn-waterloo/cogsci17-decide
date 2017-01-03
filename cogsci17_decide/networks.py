@@ -37,7 +37,7 @@ def UsherMcClelland(d, n_neurons, dt):
     return net
 
 
-def DriftDiffusion(d, n_neurons, dt):
+def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
     k = 0.
     beta = 0.
     tau_model = 0.1
@@ -76,6 +76,10 @@ def DriftDiffusion(d, n_neurons, dt):
 
         with nengo.presets.ThresholdingEnsembles(0.):
             thresholding = nengo.networks.EnsembleArray(n_neurons_threshold, d)
+            if share_thresholding_intercepts:
+                for e in thresholding.ensembles:
+                    e.intercepts = nengo.dists.Exponential(
+                        0.15, 0., 1.).sample(n_neurons_threshold)
             net.output = thresholding.add_output('heaviside', lambda x: x > 0.)
 
         bias = nengo.Node(1.)
