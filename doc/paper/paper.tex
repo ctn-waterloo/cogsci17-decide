@@ -21,6 +21,7 @@
 \documentclass[10pt,letterpaper]{article}
 
 \usepackage{cogsci}
+\usepackage{commath}
 \usepackage{pslatex}
 \usepackage{apacite}
 
@@ -88,12 +89,108 @@ followed by a discussion in section TODO\@.
 \section{Methods}
 
 \subsection{The Neural Engineering Framework}
+We employ the Neural Engineering Framework (NEF, TODO cite) which allows us to 
+implement mathematical model descriptions in spiking neural networks based on 
+three principles: \emph{representation}, \emph{transformation}, and 
+\emph{dynamics}.
+
+\subsubsection{Principle 1: Representation}
+The representation of a value $x(t)$ with a population of spiking neurons is 
+defined by the encoding and decoding. The encoding converting the value $x$ into 
+a spike train or instantaneous firing rate $a_i(t)$ for neuron $i$ is given by
+\begin{equation}
+    a_i(t) = G_i\left[\alpha_i x(t) + J_i^{\mathrm{bias}}\right]
+\end{equation}
+where $\alpha_i$ is a gain factor, $J_i^{mathrm{bias}}$ a bias current and $G_i$ 
+is the neuron linearity. Here, we use spiking leaky integrate-and-fire neurons 
+for $G_i$.
+
+Decoding weights $d_i$ are used to decode a value $\hat x(t)$ from such 
+a population of neurons with
+\begin{equation}
+    \hat x(t) = \sum_i d_i \left[a_i(t) * h(t)\right]
+\end{equation}
+where $h(t) = \tau^{-1}\exp(1/\tau)$ is the synaptic filter. The decoding 
+weights are obtained with a least-squares optimization of the error $E^x 
+= \abs{x - \hat x}$.
+
+For the transmission of a value from one population to another, the connection 
+weights are given by
+\begin{equation}
+    W_{ij} = \alpha_j d_i \text{.}
+\end{equation}
+
+\subsubsection{Principle 2: Transformation}
+By finding alternate decoding weights $d^f_i$ with the error given by $E^{f(x)} 
+= \abs{f(x) - \hat x}$ arbitrary linear and non-linear functions $f(x)$ can be 
+approximated in the connections between neural populations.
+
+\subsubsection{Principle 3: Dynamics}
+TODO
 
 \subsection{Leaky, competing accumulator model}
+We implement the widely used, leaky, competing accumulator model proposed by 
+TODO\@. The dynamics for the state variables $x_i, i < N$, where $N$ is the 
+number of choices, are given by
+\begin{equation}\label{eqn:usher-mcclelland}
+    \begin{split}
+    dx_i &= \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) 
+    \frac{dt}{\tau'} \\
+    x_i &\rightarrow \max(x_i, 0)
+    \end{split}
+\end{equation}
+where $\rho_i$ is the external input, $k$ is the leak rate, $\beta$ the lateral 
+inhibition, and $tau'$ the time constant. Note that one usually wants to set $k 
+= \beta$ because TODO\@. Here, we chose $k = \beta = 1$. TODO what does changing 
+this control? Why can we fix it at 1?
+
+Equation~\ref{eqn:usher-mcclelland} can easily be implemented with the NEF by 
+using one population of neurons for each $x_i$.  We believe this implementation 
+to be novel as it it does not treat the $x_i$ as neural firing rates, rather the 
+neural firing rates are weighted by the decoding weights to precisely implement 
+the stated dynamics. As such the model equations do not impose restrictions on 
+the neuron model or requires to lump the neurons into a single population firing 
+rate. This allows us to use biologically more realistic neurons while at the 
+same time adhering to the dynamics prescribed by the model.
+
+TODO figure with dynamics
 
 \subsection{Independent accumulator model}
+The other Winner-take-all mechanism is related to the Usher-McClelland model and 
+even more closely to independent accumulator models (TODO refs), but has some 
+fine and important distinctions. It consists of two layers of neural 
+populations. The first layer are independent accumulators obtained from 
+Equation~\ref{eqn:usher-mcclelland} by setting $k = \beta = 0$ resulting in
+\begin{equation}
+    \begin{split}
+    dx^1_i &= \lambda \rho_i \frac{dt}{\tau} \\
+    x^1_i &\rightarrow \max(x^1_i, 0) \text{.}
+    \end{split}
+\end{equation}
+The parameter $\lambda$ scales this input and is introduced because it is more 
+convenient to manipulate than then the threshold parameter $\vartheta$ 
+introduced below.
 
+The second layer consists of independent non-recurrent populations that get 
+input from the first layer in a one to one projection. We decode the shifted 
+Heaviside function $\Theta(x^2_i - \vartheta)$ from it where $\vartheta = 0.8$ 
+is a threshold value controlling how much evidence needs to be accumulated to 
+produce an output. Instead of controlling this threshold, it is more convenient 
+to scale the input with $\lambda$ in the context of the NEF, though 
+mathematically both approaches are equivalent. As the Usher-McClelland does not 
+have a threshold parameter, we do not introduce the input scaling $\lambda$ in 
+that model.
 
+The Heaviside decoded output of layer 2 projects back to layer 1 to add $x^2_i 
+- 2\sum_{j \neq i} x^2_j$ to the input of $x^1_i$. As effect the choice will be 
+stabilized while all other state variables will be suppressed once one of the 
+accumulators reaches the threshold $\vartheta$.
+
+TODO figure with dynamics
+
+\section{Results}
+
+\section{Discussion}
 * ever increasing evidence
 
 \section{Acknowledgments}
