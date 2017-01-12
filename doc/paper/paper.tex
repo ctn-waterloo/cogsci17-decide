@@ -1,0 +1,141 @@
+% 
+% Annual Cognitive Science Conference
+% Sample LaTeX Paper -- Proceedings Format
+% 
+
+% Original : Ashwin Ram (ashwin@cc.gatech.edu)       04/01/1994
+% Modified : Johanna Moore (jmoore@cs.pitt.edu)      03/17/1995
+% Modified : David Noelle (noelle@ucsd.edu)          03/15/1996
+% Modified : Pat Langley (langley@cs.stanford.edu)   01/26/1997
+% Latex2e corrections by Ramin Charles Nakisa        01/28/1997 
+% Modified : Tina Eliassi-Rad (eliassi@cs.wisc.edu)  01/31/1998
+% Modified : Trisha Yannuzzi (trisha@ircs.upenn.edu) 12/28/1999 (in process)
+% Modified : Mary Ellen Foster (M.E.Foster@ed.ac.uk) 12/11/2000
+% Modified : Ken Forbus                              01/23/2004
+% Modified : Eli M. Silk (esilk@pitt.edu)            05/24/2005
+% Modified : Niels Taatgen (taatgen@cmu.edu)         10/24/2006
+% Modified : David Noelle (dnoelle@ucmerced.edu)     11/19/2014
+
+%% Change "letterpaper" in the following line to "a4paper" if you must.
+
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{cogsci}
+\usepackage{pslatex}
+\usepackage{apacite}
+
+
+\title{TODO title}
+ 
+\author{{\large \bf Jan Gosmann (jgosmann@uwaterloo.ca)} \\
+  %Department of Psychology, 1202 W. Johnson Street \\
+  %Madison, WI 53706 USA
+  \AND{\large \bf Aaron Voelker (TODO)} \\
+  \AND{\large \bf Chris Eliasmith (TODO)}
+  %Department of Educational Psychology, 1025 W. Johnson Street \\
+  %Madison, WI 53706 USA}
+  }
+
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+The abstract should be one paragraph, indented 1/8~inch on both sides,
+in 9~point font with single spacing. The heading ``{\bf Abstract}''
+should be 10~point, bold, centered, with one line of space below
+it. This one-paragraph abstract section is required only for standard
+six page proceedings papers. Following the abstract should be a blank
+line, followed by the header ``{\bf Keywords:}'' and a list of
+descriptive keywords separated by semicolons, all in 9~point font, as
+shown below.
+
+\textbf{Keywords:} 
+add your choice of indexing terms or keywords; kindly use a
+semicolon; between each term
+\end{abstract}
+
+
+\section{Introduction}
+Winner-take-all (WTA) mechanisms are often employed in cognitive models. For 
+example, TODO O'Reilly, Nengo cleanup, TCM\@. A WTA mechanism receives 
+a $d$-dimensional input of utility values for $d$ different choices. The output 
+is supposed to be larger than zero for the dimension with highest utility and 
+zero for all other inputs.
+
+A large body of literature exists examining how well different WTA mechanisms 
+can fit different data from decision experiments (TODO references). Here, 
+however, we will investigate the suitability of two different WTA mechanisms in 
+the context of large-scale cognitive modelling with spiking neurons on a set of 
+benchmarks that are more normative in nature.  The first mechanism is an 
+implementation of the classic Usher-McClelland (TODO ref) leaky, competing 
+accumulator model.  It has been widely used, for example in versions of the TCM 
+model (TODO ref), and TODO some of our models. We will compare this to an 
+independent accumulator model with a second thresholding layer with recurrent 
+connections to the first layer. In both cases we are especially interested in 
+situations with more than two ($d > 2$) choices.
+
+For the implementation of these models we use the Neural Engineering Framework 
+(NEF) which allows us to directly implement the prescribed dynamics with spiking 
+neurons. The NEF has been used in a wide range of models TODO, including the 
+largest functional brain model Spaun (TODO ref). We will give a short 
+introduction to the NEF first, then describe the implementation of the two WTA 
+mechanisms. In section TODO, we give the results on a number of metrics, 
+followed by a discussion in section TODO\@.
+
+\section{Methods}
+
+\subsection{The Neural Engineering Framework}
+
+\subsection{Leaky, competing accumulator model}
+
+\subsection{Independent accumulator model}
+
+
+* ever increasing evidence
+
+\section{Acknowledgments}
+
+Place acknowledgments (including funding information) in a section at
+the end of the paper.
+
+
+\section{References Instructions}
+
+Follow the APA Publication Manual for citation format, both within the
+text and in the reference list, with the following exceptions: (a) do
+not cite the page numbers of any book, including chapters in edited
+volumes; (b) use the same format for unpublished references as for
+published ones. Alphabetize references by the surnames of the authors,
+with single author entries preceding multiple author entries. Order
+references by the same authors by the year of publication, with the
+earliest first.
+
+Use a first level section heading, ``{\bf References}'', as shown
+below. Use a hanging indent style, with the first line of the
+reference flush against the left margin and subsequent lines indented
+by 1/8~inch. Below are example references for a conference paper, book
+chapter, journal article, dissertation, book, technical report, and
+edited volume, respectively.
+
+\nocite{ChalnickBillman1988a}
+\nocite{Feigenbaum1963a}
+\nocite{Hill1983a}
+\nocite{OhlssonLangley1985a}
+% \nocite{Lewis1978a}
+\nocite{Matlock2001}
+\nocite{NewellSimon1972a}
+\nocite{ShragerLangley1990a}
+
+
+\bibliographystyle{apacite}
+
+\setlength{\bibleftmargin}{.125in}
+\setlength{\bibindent}{-\bibleftmargin}
+
+\bibliography{CogSci_Template}
+
+
+\end{document}
