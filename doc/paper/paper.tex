@@ -189,9 +189,154 @@ accumulators reaches the threshold $\vartheta$.
 TODO figure with dynamics
 
 \section{Results}
+To test and compare the two WTA mechanisms we provide an input of $\rho_i 
+= u - s \delta_{1i} + \eta_i$ where $u$ is the strength of the strongest input, 
+$s$ the separation to all other inputs, $\delta$ the Kronecker delta, and 
+$\eta_i$ Gaussian white noise with standard deviation $\sigma$. Thus, without 
+loss of generality, the first state variable receives the strongest input and 
+all other state variables receive input that is $s$ less. We chose this input as 
+it it represents the worse case for picking out the strongest input as $s 
+\rightarrow 0$ and as one input $\rho_i \rightarrow 0$ it will have less 
+influence on the overall dynamics of the two WTA mechanisms.
+
+To evaluate the two mechanisms we use a number of metrics. First we determine 
+whether the model is able to form a clear decision at all within a second of 
+simulated time. To count as a clear decision at least one output needs to stay 
+above 0.2 for a second after the initial second of simulation time. This ensures 
+that the output is different from a 0 output which could slightly be above 
+0 due to noise. Furthermore, we require that the largest output will be the 
+  largest output for all of that second of simulation time because otherwise the 
+  decision would switch.
+
+This does not take into account whether the winning output actually corresponds 
+to the strongest input, but sometimes it can be more desirable to form a clear 
+decision at all than finding the actual strongest input. In other situations, 
+though, the correctness of the decision might be important. So this is our next 
+metric. A trial is considered correct if the model forms a clear decision and 
+the largest output corresponds to the largest input.
+
+The time it takes to form a decision can be relevant too. We define the decision 
+time as how long it takes to fulfill the conditions of a clear decision.
+
+These metrics cover the basic performance of the WTA mechanims. When using a WTA 
+mechanism within larger cognitive models, the exact magnitude of the outputs can 
+be important. Ideally, the output would be 1 for the winner and 0 for all other 
+outputs.\footnote{Technically, the winner output could be scaled to any 
+    magnitude. We use 1 here as it is most convenient to work with.} We define 
+the \emph{winner error} $E_1$ as the difference of the winner output from 1 and 
+the \emph{runner-up error} $E_2$ as the difference of second largest output from 
+0 (negative values treated as 0). We use the average output values of the second 
+  second in the simulation as the value can fluctuate over time.
+
+These two metrics only look at the final output, but the model can produce 
+transient outputs before the final decision is achieved. Within the context of 
+a larger model, this can be a problem as the transient output could already be 
+interpreted as a decision. Thus, we define $E_{2,\max}$ as the highest output of 
+a non-winning output during the whole simulation.
+
+
+We find that the ability to reach a clear decision depends on the magnitude of 
+the highest input for both networks. This is not surprising. In the 
+Usher-McClelland the output magnitude will be determined by the input magnitude 
+of the largest input. As such the largest input needs to be above 0.2 to fulfill 
+the requirements. For the independent accumulator model the input has to be 
+large enough to reach the integration threshold within the time limit. By 
+increasing the input scaling $\lambda$ or the time limit one could get a clear 
+decision for smaller inputs within the time limit. We further find that the 
+independent accumulator model is independent of the input noise and target 
+separation for all tested parameters. This is not the case for the 
+Usher-McClelland model as shown in Figure~TODO where the fraction of trials 
+without a clear decision increases with noise and smaller target separation.
+
+However, when considering the correctness of the decisions (Figure~TODO) the 
+Usher-McClelland model is doing better. We can alleviate that difference to some 
+degree by reducing the input scaling to $\lambda = TODO$, but perform still 
+worse for small target separations when staying in the time limit.
+
+The time required to reach a decision in the Usher-McClelland model depend 
+mostly on the target separation and amount of noise on the input (Figure~TODO), 
+the magnitude of the largest input is of minor influence. In contrast to that, 
+in the independent accumulator model the scaled magnitude of the largest input 
+is the most important factor. Depending on this magnitude the network can either 
+be faster or slower than the Usher-McClelland network, but it will need more 
+time to achieve the same corectness of responses. There is also a slight 
+influence of target separation and input noise with an interaction of these two 
+parameters (Figure~TODO).
+
+The output of the independent accumulator model matches almost perfectly the 
+specifications. This is not the case for the Usher-McClelland model 
+(Figure~TODO).  For small target separations the output of the winner will stay 
+below 1 and this will get worse with increased noise. As the winner output will 
+try to match the largest input TODO explanation. Furthermore, the 
+Usher-McClelland model will have residual outputs of non-winning choices under 
+noisy conditions and with small target separations.
+
+Finally, looking at the transient responses both models might produce outputs of 
+non-winning choices. For the Usher-McClelland model these increase with noise on 
+the input and, for small target separation, can approach the final output of the 
+winning dimensions. For the independent accumulator model, transient output are 
+smaller in noisy conditions, but can be higher than for the Usher-McClelland 
+model in less noisy conditions. The magnitude of such transient responses is 
+reduced by decreasing the input scaling.
 
 \section{Discussion}
-* ever increasing evidence
+We do not find either one of the networks to perform better on all metrics, but 
+rather they excel at slightly different things. The Usher-McClelland network is 
+better suited to quickly determine the correct winner. However, under noisy 
+conditions it can end up not producing a clear output at all and basically not 
+making a decision at all. The independent accumulator model might not be as 
+quick or find the correct winner as often, but given enough time it will 
+eventually arrive at a decision and produce a clear output.
+
+The Usher-McClelland network is especially suited for situations where 
+a decision needs to be continuously adjusted. The prescribed dynamics 
+essentially try to output what the currently largest input is considering some 
+smoothing over time. This makes it quick to respond to changes of the input, but 
+can also lead randomly switching outputs due to noise. In comparison, the 
+independent accumulator model is more suited in situations where a discrete 
+sequence of decisions is required. During the initial phase the model will just 
+integrate evidence without any output and after making a decision, it is 
+necessary to reset the model by inhibiting all layer 1 neurons. This limits the 
+how quickly successive decisions can be made, but at the same time once 
+a decision is made the network provides a stable output.
+
+There are also certain considerations to be made when integrating these networks 
+in larger neural or cognitive models. This integration is easy for the 
+independent accumulator model as it provides a clear output. The output of the 
+winning choice is also close to one which makes it easy to detect when the 
+decision has been made and processing can continue. This is problematic in the 
+Usher-McClelland model where we get a fluctuating output before the final 
+decision and as this output can get close to the final output we cannot 
+necessarily use the crossing of a threshold. Moreover, the magnitude of the 
+final output depends on the magnitude of the input which is also a problem for 
+using a fixed threshold.
+
+Part of the reason why the independent accumulator model produces less correct 
+responses is a systematic bias introduced in the second layer. Usually the 
+neural properties are selected randomly in the NEF and this will result in 
+slightly different thresholds for each of the populations before it will fire.  
+It is possible to select the neural parameters in a way that all of these 
+populations will have the same threshold which improves the correctness 
+(Figure~TODO). However, this would require a very precise tuning of the neurons 
+that might not be biologically plausible.
+
+One critique of non-leaky accumulator models is that their ability to 
+discriminate the largest input increases indefinitely with time (TODO~ref) and 
+that there is no sensible stopping criterion. However, this assumes that the 
+time to reach a decision has no cost. If that time has a cost, the cost of 
+spending more time on the decision will at some point exceed the gain by making 
+a correct decision. Furthermore, this argument assumes integration with perfect 
+accuracy. But in a neural network resources are limited, as such the range and 
+accuracy of values that can be represented in a neural population is limited.  
+At some point this would counterbalance any additional evidence.
+
+We did not investigate the biological plausibility here because there is 
+evidence to be found for both networks (TODO references). Also, the 
+implementation is spiking neurons ensures a certain level of biological 
+plausibility.
+
+TODO\@: distribution of neurons in network, looking only at cases where 
+a decision could be made within the results.
 
 \section{Acknowledgments}
 
