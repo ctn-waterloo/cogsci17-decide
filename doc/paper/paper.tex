@@ -213,8 +213,9 @@ influence on the overall dynamics of the two WTA mechanisms.
 To evaluate the two mechanisms we use a number of metrics. First we determine 
 whether the model is able to form a clear decision at all within a second of 
 simulated time. To count as a clear decision at least one output needs to stay 
-above 0.2 for a second after the initial second of simulation time. This ensures 
-that the output is different from a 0 output which could slightly be above 
+above 0.15 for a second after the initial second of simulation time. This 
+ensures that the output is different from a 0 output which could slightly be 
+above 
 0 due to noise. Furthermore, we require that the largest output will be the 
   largest output for all of that second of simulation time because otherwise the 
   decision would switch.
@@ -280,7 +281,7 @@ the magnitude of the largest input is of minor influence. In contrast to that,
 in the independent accumulator model the scaled magnitude of the largest input 
 is the most important factor. Depending on this magnitude the network can either 
 be faster or slower than the Usher-McClelland network, but it will need more 
-time to achieve the same corectness of responses. There is also a slight 
+time to achieve the same correctness of responses. There is also a slight 
 influence of target separation and input noise with an interaction of these two 
 parameters (Figure~TODO).
 
