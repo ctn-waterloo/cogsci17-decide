@@ -11,7 +11,7 @@ class DecisionTrial(pytry.NengoTrial):
         self.param("# choices", d=10)
         self.param("# neurons per choice", N=200)
 
-        self.param("input baseline", baseline=0.1)
+        self.param("input baseline", baseline=0.3)
         self.param("target separation", target_sep=0.2)
         self.param("noise std", noise=0.)
         self.param("input scaling", scale=1.)
@@ -27,7 +27,7 @@ class DecisionTrial(pytry.NengoTrial):
             decide = getattr(cogsci17_decide.networks, p.network)(**net_args)
 
             stimulus = p.baseline * np.ones(p.d)
-            stimulus[0] += p.target_sep
+            stimulus[1:] -= p.target_sep
             stimulus_node = nengo.Node(stimulus)
             nengo.Connection(stimulus_node, decide.input, synapse=None,
                              transform=p.scale)
@@ -66,7 +66,7 @@ class DecisionTrial(pytry.NengoTrial):
         t = np.nan
         if decided:
             risen = np.flatnonzero(
-                sim.data[self.probe][:, winner] > .2)
+                sim.data[self.probe][:, winner] > .15)
             if len(risen) > 0:
                 fall = np.flatnonzero(
                     sim.data[self.probe][:, winner] -
