@@ -66,6 +66,7 @@ def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
             eval_points=nengo.dists.Uniform(0., 1.),
             intercepts=nengo.dists.Uniform(0., 1.),
             encoders=nengo.dists.Choice([[1.]]))
+        net.x = x
         nengo.Connection(x.output, x.input, transform=(A - a * I) / (1. - a),
                          synapse=tau_actual)
 

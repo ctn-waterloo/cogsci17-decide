@@ -22,6 +22,7 @@
 
 \usepackage{cogsci}
 \usepackage{commath}
+\usepackage{graphicx}
 \usepackage{pslatex}
 \usepackage{apacite}
 
@@ -154,6 +155,11 @@ rate. This allows us to use biologically more realistic neurons while at the
 same time adhering to the dynamics prescribed by the model.
 
 TODO figure with dynamics
+\begin{figure}
+    \centering
+    \includegraphics{figures/usher-mcclelland}
+    \caption{TODO}\label{fig:usher-mcclelland}
+\end{figure}
 
 \subsection{Independent accumulator model}
 The other Winner-take-all mechanism is related to the Usher-McClelland model and 
@@ -187,6 +193,11 @@ stabilized while all other state variables will be suppressed once one of the
 accumulators reaches the threshold $\vartheta$.
 
 TODO figure with dynamics
+\begin{figure}
+    \centering
+    \includegraphics{figures/indacc}
+    \caption{TODO}\label{fig:indacc}
+\end{figure}
 
 \section{Results}
 To test and compare the two WTA mechanisms we provide an input of $\rho_i 
@@ -247,11 +258,21 @@ independent accumulator model is independent of the input noise and target
 separation for all tested parameters. This is not the case for the 
 Usher-McClelland model as shown in Figure~TODO where the fraction of trials 
 without a clear decision increases with noise and smaller target separation.
+\begin{figure}
+    \centering
+    \includegraphics{figures/decisions}
+    \caption{TODO}\label{fig:decisions}
+\end{figure}
 
 However, when considering the correctness of the decisions (Figure~TODO) the 
 Usher-McClelland model is doing better. We can alleviate that difference to some 
 degree by reducing the input scaling to $\lambda = TODO$, but perform still 
 worse for small target separations when staying in the time limit.
+\begin{figure*}
+    \centering
+    \includegraphics{figures/correct}
+    \caption{TODO}\label{fig:correct}
+\end{figure*}
 
 The time required to reach a decision in the Usher-McClelland model depend 
 mostly on the target separation and amount of noise on the input (Figure~TODO), 
@@ -336,7 +357,8 @@ implementation is spiking neurons ensures a certain level of biological
 plausibility.
 
 TODO\@: distribution of neurons in network, looking only at cases where 
-a decision could be made within the results.
+a decision could be made within the results, what about more choices, include 
+a number of parameters and github url.
 
 \section{Acknowledgments}
 
