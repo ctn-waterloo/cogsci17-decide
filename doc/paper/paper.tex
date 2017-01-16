@@ -61,39 +61,41 @@ semicolon; between each term
 
 
 \section{Introduction}
-Winner-take-all (WTA) mechanisms are often employed in cognitive models. For 
-example, TODO O'Reilly, Nengo cleanup, TCM\@. A WTA mechanism receives 
-a $d$-dimensional input of utility values for $d$ different choices. The output 
-is supposed to be larger than zero for the dimension with highest utility and 
-zero for all other inputs.
+Winner-take-all (WTA) mechanisms are often employed in cognitive 
+models~\cite<e.g.,>{oreilly1998}.  A WTA mechanism receives a $d$-dimensional 
+input of utility values for $d$ different choices. The output is supposed to be 
+larger than zero for the dimension with highest utility and zero for all other 
+inputs.
 
-A large body of literature exists examining how well different WTA mechanisms 
-can fit different data from decision experiments (TODO references). Here, 
-however, we will investigate the suitability of two different WTA mechanisms in 
-the context of large-scale cognitive modelling with spiking neurons on a set of 
-benchmarks that are more normative in nature.  The first mechanism is an 
-implementation of the classic Usher-McClelland (TODO ref) leaky, competing 
-accumulator model.  It has been widely used, for example in versions of the TCM 
-model (TODO ref), and TODO some of our models. We will compare this to an 
-independent accumulator model with a second thresholding layer with recurrent 
-connections to the first layer. In both cases we are especially interested in 
-situations with more than two ($d > 2$) choices.
+A large body of literature exists examining the optimality of WTA mechanisms and 
+their consistency with neurobiological and psychological 
+data~\cite<e.g.,>{bogacz2006,gold2007,smith2004}.  Here, however, we will 
+investigate the suitability of two different WTA mechanisms in the context of 
+large-scale cognitive modelling with spiking neurons on a set of benchmarks that 
+are more normative in nature.  The first mechanism is an implementation of the 
+classic leaky, competing accumulator model by~\citeA{usher2001}.  It has been 
+widely used, for example in versions of the Temporal Context 
+Model~\cite{sederberg2008}, and some of our models~\cite<e.g.,>{kajic2017}. We 
+will compare this to an independent accumulator model with a second thresholding 
+layer with recurrent connections to the first layer.  In both cases we are 
+especially interested in situations with more than two ($d > 2$) choices.
 
-For the implementation of these models we use the Neural Engineering Framework 
-(NEF) which allows us to directly implement the prescribed dynamics with spiking 
-neurons. The NEF has been used in a wide range of models TODO, including the 
-largest functional brain model Spaun (TODO ref). We will give a short 
-introduction to the NEF first, then describe the implementation of the two WTA 
-mechanisms. In section TODO, we give the results on a number of metrics, 
-followed by a discussion in section TODO\@.
+For the implementation of these models we use the Neural Engineering 
+Framework~\cite<NEF;>{eliasmith2003} which allows us to directly implement the 
+prescribed dynamics with spiking neurons. The NEF has been used in a wide range 
+of models, including the largest functional brain model 
+Spaun~\cite{eliasmith2012}.  We will give a short introduction to the NEF first, 
+then describe the implementation of the two WTA mechanisms. In 
+Section~\ref{sec:results}, we give the results on a number of metrics, followed 
+by a discussion in Section~\ref{sec:discussion}.
 
 \section{Methods}
 
 \subsection{The Neural Engineering Framework}
-We employ the Neural Engineering Framework (NEF, TODO cite) which allows us to 
-implement mathematical model descriptions in spiking neural networks based on 
-three principles: \emph{representation}, \emph{transformation}, and 
-\emph{dynamics}.
+We employ the Neural Engineering Framework~\cite<NEF;>{eliasmith2003} which 
+allows us to implement mathematical model descriptions in spiking neural 
+networks based on three principles: \emph{representation}, 
+\emph{transformation}, and \emph{dynamics}.
 
 \subsubsection{Principle 1: Representation}
 The representation of a value $x(t)$ with a population of spiking neurons is 
@@ -130,9 +132,9 @@ approximated in the connections between neural populations.
 TODO
 
 \subsection{Leaky, competing accumulator model}
-We implement the widely used, leaky, competing accumulator model proposed by 
-TODO\@. The dynamics for the state variables $x_i, i < N$, where $N$ is the 
-number of choices, are given by
+We implement the widely used, leaky, competing accumulator model proposed 
+by~\citeA{usher2001}.  The dynamics for the state variables $x_i, i < N$, where 
+$N$ is the number of choices, are given by
 \begin{equation}\label{eqn:usher-mcclelland}
     \begin{split}
     dx_i &= \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) 
@@ -199,7 +201,7 @@ TODO figure with dynamics
     \caption{TODO}\label{fig:indacc}
 \end{figure}
 
-\section{Results}
+\section{Results}\label{sec:results}
 To test and compare the two WTA mechanisms we provide an input of $\rho_i 
 = u - s \delta_{1i} + \eta_i$ where $u$ is the strength of the strongest input, 
 $s$ the separation to all other inputs, $\delta$ the Kronecker delta, and 
@@ -301,7 +303,7 @@ smaller in noisy conditions, but can be higher than for the Usher-McClelland
 model in less noisy conditions. The magnitude of such transient responses is 
 reduced by decreasing the input scaling.
 
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
 We do not find either one of the networks to perform better on all metrics, but 
 rather they excel at slightly different things. The Usher-McClelland network is 
 better suited to quickly determine the correct winner. However, under noisy 
@@ -385,22 +387,12 @@ by 1/8~inch. Below are example references for a conference paper, book
 chapter, journal article, dissertation, book, technical report, and
 edited volume, respectively.
 
-\nocite{ChalnickBillman1988a}
-\nocite{Feigenbaum1963a}
-\nocite{Hill1983a}
-\nocite{OhlssonLangley1985a}
-% \nocite{Lewis1978a}
-\nocite{Matlock2001}
-\nocite{NewellSimon1972a}
-\nocite{ShragerLangley1990a}
-
-
 \bibliographystyle{apacite}
 
 \setlength{\bibleftmargin}{.125in}
 \setlength{\bibindent}{-\bibleftmargin}
 
-\bibliography{CogSci_Template}
+\bibliography{references}
 
 
 \end{document}
