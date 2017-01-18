@@ -8,15 +8,14 @@ def UsherMcClelland(d, n_neurons, dt):
     tau_model = 0.1
 
     tau_actual = 0.1
-    a = np.exp(-dt / tau_actual)
 
     # eqn (4) ignoring truncation, put into the canonical form:
     #   x[t+dt] = Ax[t] + Bu
     inhibit = np.ones((d, d))
     inhibit[np.diag_indices(d)] = 0.
     I = np.eye(d)
-    B = dt / tau_model
-    A = (-k * I - beta * inhibit) * dt / tau_model + I
+    B = 1. / tau_model
+    A = (-k * I - beta * inhibit) / tau_model
 
     with nengo.Network() as net:
         net.input = nengo.Node(size_in=d)
@@ -25,12 +24,12 @@ def UsherMcClelland(d, n_neurons, dt):
             eval_points=nengo.dists.Uniform(0., 1.),
             intercepts=nengo.dists.Uniform(0., 1.),
             encoders=nengo.dists.Choice([[1.]]))
-        nengo.Connection(x.output, x.input, transform=(A - a * I) / (1. - a),
+        nengo.Connection(x.output, x.input, transform=tau_actual * A + I,
                          synapse=tau_actual)
 
         nengo.Connection(
             net.input, x.input,
-            transform=B / (1 - a),  # discrete principle 3
+            transform=tau_actual * B,
             synapse=tau_actual)
 
         net.output = x.output
@@ -44,15 +43,14 @@ def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
     tau_model = 0.1
 
     tau_actual = 0.1
-    a = np.exp(-dt / tau_actual)
 
     # eqn (4) ignoring truncation, put into the canonical form:
     #   x[t+dt] = Ax[t] + Bu
     inhibit = np.ones((d, d))
     inhibit[np.diag_indices(d)] = 0.
     I = np.eye(d)
-    B = 1.0 * dt / tau_model
-    A = (-k * I - beta * inhibit) * dt / tau_model + I
+    B = 1.0 / tau_model
+    A = (-k * I - beta * inhibit) / tau_model
 
     n_neurons_threshold = 50
     n_neurons_x = n_neurons - n_neurons_threshold
@@ -67,12 +65,12 @@ def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
             intercepts=nengo.dists.Uniform(0., 1.),
             encoders=nengo.dists.Choice([[1.]]))
         net.x = x
-        nengo.Connection(x.output, x.input, transform=(A - a * I) / (1. - a),
+        nengo.Connection(x.output, x.input, transform=tau_actual * A + I,
                          synapse=tau_actual)
 
         nengo.Connection(
             net.input, x.input,
-            transform=B / (1 - a),  # discrete principle 3
+            transform=tau_actual * B,
             synapse=tau_actual)
 
         with nengo.presets.ThresholdingEnsembles(0.):
