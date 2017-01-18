@@ -26,31 +26,32 @@
 \usepackage{pslatex}
 \usepackage{siunitx}
 \usepackage{apacite}
+\usepackage{xcolor}  % for \textcolor
 
+\newcommand{\todo}[1]{\textbf{\textsc{\textcolor{blue}{(TODO\@: #1)}}}}
 
-\title{TODO title}
- 
+\title{A Spiking Independent Accumulator Model for Winner-Take-All}
+
 \author{{\large \bf Jan Gosmann (jgosmann@uwaterloo.ca)} \\
-  %Department of Psychology, 1202 W. Johnson Street \\
-  %Madison, WI 53706 USA
-  \AND{\large \bf Aaron Voelker (TODO)} \\
-  \AND{\large \bf Chris Eliasmith (TODO)}
-  %Department of Educational Psychology, 1025 W. Johnson Street \\
-  %Madison, WI 53706 USA}
-  }
-
+  {\large \bf Aaron R. Voelker (arvoelke@uwaterloo.ca)} \\
+  {\large \bf Chris Eliasmith (celiasmith@uwaterloo.ca)} \\
+  Centre for Theoretical Neuroscience, University of Waterloo \\
+  Waterloo, ON, Canada N2L 3G1
+}
 
 \begin{document}
 
 \maketitle
 
-
 \begin{abstract}
-    TODO
+The winner-take-all (WTA) mechanism is an important component of many cognitive models.
+\todo{Flesh this out a bit}
+We first provide a novel spiking implementation of the well-known leaky competing accumulator (LCA) model, by mapping its dynamics onto a population-level representation.
+We then propose a two-layer spiking independent accumulator (IA) model, and compare its performance against the LCA network on a variety of WTA benchmarks.
+Our findings suggest that while the LCA network can rapidly adapt to new winners, the IA network is better suited for stable decision making in the presence of noise.
 
-\textbf{Keywords:} TODO add your choice of indexing terms or keywords; kindly 
-use a
-semicolon; between each term
+\textbf{Keywords:} Neural Engineering Framework; Nengo; winner-take-all; 
+decision making; mutual inhibition; neural competition; dynamical systems
 \end{abstract}
 
 
@@ -60,29 +61,29 @@ models~\cite<e.g.,>{oreilly1998}.  A WTA mechanism receives a $d$-dimensional
 input of utility values for $d$ different choices. The output is supposed to be 
 larger than zero for the dimension with highest utility and zero for all other 
 inputs.
+\todo{Say some obvious things, such as the role of WTA in decision making?}
 
 A large body of literature exists examining the optimality of WTA mechanisms and 
 their consistency with neurobiological and psychological 
-data~\cite<e.g.,>{bogacz2006,gold2007,smith2004}.  Here, however, we will 
+data~\cite<e.g.,>{bogacz2006,gold2007,smith2004}.  Here, we 
 investigate the suitability of two different WTA mechanisms in the context of 
-large-scale cognitive modelling with spiking neurons on a set of benchmarks that 
-are more normative in nature.  The first mechanism is an implementation of the 
+large-scale cognitive modelling.
+In particular, we map each mechanism onto a biologically plausible network of spiking neurons, and then compare them using a set of benchmarks that
+are normative in nature.  The first mechanism is an implementation of the 
 leaky, competing accumulator model by~\citeA{usher2001}.  It has been widely 
 used, for example in versions of the Temporal Context 
-Model~\cite{sederberg2008}, and some of our models~\cite<e.g.,>{kajic2017}. We 
-will compare this to an independent accumulator model with a second thresholding 
-layer with recurrent connections to the first layer.  In both cases we are 
-especially interested in situations with more than two choices ($d > 2$).
+Model~\cite{sederberg2008}, and some of our models~\cite<e.g.,>{kajic2017}. \todo{How does the latter implementation differ from the implementation here?}
+The second mechanism is our proposed independent accumulator (IA) model, which involves a second thresholding layer that is recurrently connected to a primary integrating layer.
+For both mechanisms we are interested in decision-making tasks involving more than two choices ($d > 2$). \todo{Misplaced sentence.}
 
-For the implementation of these models we use the Neural Engineering 
-Framework~\cite<NEF;>{eliasmith2003} which allows us to directly implement the 
-prescribed dynamics with spiking neurons. The NEF has been used in a wide range 
-of models, including the largest functional brain model 
-Spaun~\cite{eliasmith2012}.  We will give a short introduction to the NEF first, 
-then describe the implementation of the two WTA mechanisms. Then we give the 
-results on a number of metrics, followed by a discussion.
+To implement these models, we use the Neural Engineering 
+Framework~\cite<NEF;>{eliasmith2003} to map some prescribed dynamics onto populations of spiking neurons. The NEF has been used for a wide variety 
+of models, including the largest functioning simulation of the human brain~\cite{eliasmith2012}.  We first provide a short introduction to the NEF, and then describe the implementation of the two WTA mechanisms.
+We then describe our benchmarks, and discuss some resulting implications for cognitive modelling.
 
 \section{Methods}
+
+\todo{Bold font for vectors}
 
 \subsection{The Neural Engineering Framework}
 We employ the Neural Engineering Framework~\cite<NEF;>{eliasmith2003} which 
@@ -106,7 +107,7 @@ a population of neurons with
 \begin{equation}
     \hat x(t) = \sum_i d_i \left[a_i(t) * h(t)\right]
 \end{equation}
-where $h(t) = \tau_{\mathrm{s}}^{-1}\exp(1/\tau_{\mathrm{s}})$ is an exponential 
+where $h(t) = \tau_{\mathrm{s}}^{-1}\exp(t/\tau_{\mathrm{s}})$ is an exponential 
 synaptic filter with time constant $\tau_{\mathrm{s}}$.  The decoding weights 
 are obtained with a least-squares optimization of the error $E_x = \abs{x 
     - \hat{x}}$.
@@ -126,7 +127,7 @@ approximated in the connections between neural populations.
 TODO
 
 \subsection{Leaky, competing accumulator model}
-We implement the widely used, leaky, competing accumulator (LCA) model proposed 
+We implement the widely-used leaky, competing accumulator (LCA) model proposed 
 by~\citeA{usher2001}.  The dynamics for the state variables $x_i,\ i < N$, where 
 $N$ is the number of choices, are given by:
 \begin{equation} \label{eqn:usher-mcclelland}
@@ -158,15 +159,19 @@ Figure~\ref{fig:usher-mcclelland} shows an example output.
 \end{figure}
 
 \subsection{Independent accumulator model}
-The other investigated winner-take-all mechanism is an independent accumulator 
-(IA) model, i.e.~there is no interaction like mutual inhibition among the 
-accumulators. Compared to prior similar models (TODO refs), however, we add 
-a second layer of independent, non-recurrent populations that get input from the 
-first layer in a one to one projection. We decode the shifted Heaviside function 
-$\bar{x}_{2,i} = \Theta(x^2_i - \vartheta)$ from it where $\vartheta = 0.8$ is 
-a threshold value controlling how much evidence needs to be accumulated to 
-produce an output.
+The other WTA mechanism that we investigate is our proposed independent accumulator (IA) model.
+We use the term `independent' to refer to the fact that there are no direct interactions between each accumulator.
+To enable competition, we add a second thresholding layer that will project back to self-excite and mutually-inhibit the first layer.
+We now provide the details of each layer~(Fig.~\todo{network diagram}).
+
+The first layer consists of a separate integrator population (i.e., accumulator) for each input.
+The second layer consists of independent, non-recurrent populations that receive input from the 
+first layer in a one-to-one fashion.
+From the second layer, we decode the shifted Heaviside function 
+$\bar{x}_{2,i} = \Theta(x_{2,i} - \vartheta)$ where $\vartheta = 0.8$ is 
+a threshold value controlling how much evidence needs to be accumulated to produce an output.
 The Heaviside decoded output of layer 2 projects back to layer 1 to add 
+<<<<<<< HEAD
 $\bar{x}_{2,i} - \bar{\beta} \sum_{j \neq i} \bar{x}_{2,j}$ to the input of $x_{1,i}$.
 For $\bar{\beta} = 2$ (see supplementary analysis), the correct choice will self-excite while all other state variables will be 
 suppressed once one of the accumulators reaches the threshold $\vartheta$.  The 
@@ -191,10 +196,11 @@ model.  Figure~\ref{fig:indacc} shows an example of the model dynamics.
     \caption{Example time course of the state variables $x_{1,i}$ and decoded 
         output $\bar{x}_{2,i}$ in the independent accumulator model with three 
         dimensions. The vector of inputs is given by (0.8, 0.7, 0.6).
+        \todo{Put next to (or below) first figure.}
     }\label{fig:indacc}
 \end{figure}
 
-\subsection{Metrics}
+\subsection{Benchmarks}
 To test and compare the two WTA mechanisms we provide an input of $\rho_i 
 = u - s \delta_{1i} + \eta_i$ where $u$ is the strength of the strongest input, 
 $s$ the target separation to all other inputs, $\delta$ the Kronecker delta, and 
@@ -226,11 +232,11 @@ layer 2 population. Further parameters are summarized in Table~\ref{tbl:params}.
     \end{tabular}
 \end{table}
 
-To evaluate the two mechanisms on this input, we use a number of metrics. First 
+To evaluate the two mechanisms on this input, we use a number of separate metrics. First 
 we determine whether the model is able to form a clear decision at all within 
 a second of simulated time. To count as a clear decision, at least one output 
 needs to stay above 0.15 for the time interval
-$]\SI{1}{\second}, \SI{2}{\second}]$. % chktex 10
+$[\SI{1}{\second}, \SI{2}{\second}]$. % chktex 10
 This lower bound was chosen to ensure that noise on a zero output is not 
 mistaken as a non-zero output.  Furthermore, we require that the largest output 
 will be the largest output for all of the time interval or in other words the 
@@ -365,25 +371,22 @@ decreasing the input scaling.
 \end{figure*}
 
 \section{Discussion}
-We find neither of the two networks to perform better on all metrics, but rather 
-they are suited for slightly different things. The leaky, competing accumulator 
+We find neither of the two networks to perform better on all benchmarks, but rather 
+they are suited for slightly different purposes. The leaky, competing accumulator 
 model is better at quickly determining the correct winner. However, under noisy 
 conditions it can end up not producing a clear output at all and thus failing to 
 produce a decision.  The independent accumulator model might not be as quick or 
 find the correct winner as often, but given enough time it will eventually 
 arrive at a decision and produce a clear output.
-
 The LCA network is especially suited for situations where a decision needs to be 
 continuously adjusted. The prescribed dynamics essentially try to output what 
 the currently largest input is considering some smoothing over time. This makes 
-it quick to respond to changes of the input, but can also lead to random 
-switching outputs due to noise. In comparison, the IA model is more suited in 
-situations where a discrete sequence of decisions is required.  During the 
-initial phase the model will just integrate evidence without any output and 
-after making a decision, it is necessary to reset the model by inhibiting all 
-layer 1 neurons. This limits the how quickly successive decisions can be made, 
-but at the same time, once a decision is made, the network provides a stable 
-output.
+it quick to respond to changes in the input, but can also lead to randomly 
+switching outputs due to noise.
+
+In comparison, the IA model is better suited for 
+situations where a discrete sequence of decisions is required.  After selecting a winner, the model's decision will persist due to self-excitation, even in the absence of input. Thus, after making a decision, it is necessary to reset the model by inhibiting the winning accumulator. This limits how quickly successive decisions can be made.
+On the other hand, once a decision is made, the network provides a stable output.
 
 There are also certain considerations to be made when integrating these networks 
 into larger neural or cognitive models. This integration is easy for the IA 
@@ -429,11 +432,9 @@ Simulation source code and additional analysis results are available at
 reviewed.
 
 \section{Acknowledgments}
-TODO anything missing here?
 This work was supported by the Canada Research Chairs program,
 the NSERC Discovery grant 261453, Air Force Office of Scientific Research grant 
-FA8655-13-1-3084, CFI and OIT\@.  % chktex 8
-
+FA8655-13-1-3084, CFI, OIT, and NSERC CGS-D\@.  % chktex 8
 
 \bibliographystyle{apacite}
 
