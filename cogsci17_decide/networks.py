@@ -6,14 +6,12 @@ def UsherMcClelland(d, n_neurons, dt):
     k = 1.
     beta = 1.
     tau_model = 0.1
-
     tau_actual = 0.1
 
-    # eqn (4) ignoring truncation, put into the canonical form:
-    #   x[t+dt] = Ax[t] + Bu
-    inhibit = np.ones((d, d))
-    inhibit[np.diag_indices(d)] = 0.
+    # eqn (4) ignoring truncation, put into continuous LTI form:
+    #   dot{x} = Ax + Bu
     I = np.eye(d)
+    inhibit = 1 - I
     B = 1. / tau_model
     A = (-k * I - beta * inhibit) / tau_model
 
@@ -38,19 +36,22 @@ def UsherMcClelland(d, n_neurons, dt):
 
 
 def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
-    k = 0.
-    beta = 0.
-    tau_model = 0.1
-
+    bar_beta = 2.  # should be >= 1 + max_input * tau2 / tau1
+    tau_model1 = 0.1
+    tau_model2 = 0.1
     tau_actual = 0.1
 
-    # eqn (4) ignoring truncation, put into the canonical form:
-    #   x[t+dt] = Ax[t] + Bu
-    inhibit = np.ones((d, d))
-    inhibit[np.diag_indices(d)] = 0.
+    # dynamics put into continuous LTI form:
+    #   dot{x1} = A1x1 + A2x2 + Bu
+    # where x1 is the state variable for layer 1 and
+    #       x2 is the state variable for layer 2
+    # note that from the perspective of Principle 3, A2x2 is treated
+    # as an "input" similar to u
     I = np.eye(d)
-    B = 1.0 / tau_model
-    A = (-k * I - beta * inhibit) / tau_model
+    inhibit = 1 - I
+    B = 1. / tau_model1  # input -> layer 1
+    A1 = 0  # (integrator) layer1 -> layer1
+    A2 = (I - bar_beta * inhibit) / tau_model2  # layer 2 -> layer 1
 
     n_neurons_threshold = 50
     n_neurons_x = n_neurons - n_neurons_threshold
@@ -65,7 +66,7 @@ def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
             intercepts=nengo.dists.Uniform(0., 1.),
             encoders=nengo.dists.Choice([[1.]]))
         net.x = x
-        nengo.Connection(x.output, x.input, transform=tau_actual * A + I,
+        nengo.Connection(x.output, x.input, transform=tau_actual * A1 + I,
                          synapse=tau_actual)
 
         nengo.Connection(
@@ -88,6 +89,6 @@ def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
             bias, thresholding.input, transform=-threshold * np.ones((d, 1)))
         nengo.Connection(
             thresholding.heaviside, x.input,
-            transform=-2. + 3. * np.eye(d), synapse=tau_actual)
+            transform=tau_actual * A2, synapse=tau_actual)
 
     return net
