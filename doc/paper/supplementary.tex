@@ -1,0 +1,112 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{commath}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Supplementary Analysis}
+\author{Jan Gosmann, Aaron R. Voelker, and Chris Eliasmith}
+
+\begin{document}
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+
+\section{Leaky, Competing Accumulator Model Analysis}
+
+The model dynamics for the leaky, competing accumulator (LCA) are given as follows:
+\begin{equation}
+    \begin{split}
+        \frac{{\partial x}_i}{\partial t} &= \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) \frac{1}{\tau} \\
+        x_i &\rightarrow \max(x_i, 0) .
+    \end{split}
+\end{equation}
+We now justify our choice of $k = \beta = 1$ from the text.
+This guarantees that the winning state will converge to its input value, and each losing state will converge to zero.
+
+\subsection{Effect of $k = 1$}
+
+To isolate the `role' of $k$, we consider the case where $\beta \sum_{j \ne i} x_j = 0$. 
+% it suffices to consider the case where $\beta = 0$ and ignore the rectification of $x_i$.
+% Note that this is equivalent to assuming $x_j = 0$ for all $j \ne i$.
+This situation obeys the dynamics:
+\begin{equation}
+    \begin{split}
+        \frac{{\partial x}_i}{\partial t} &= \left(\rho_i - kx_i\right) 
+        \frac{1}{\tau}
+    \end{split}.
+\end{equation}
+We then take the Laplace transform of both sides, and rearrange to obtain:
+\begin{equation}
+s\mathcal{L}\{x_i\} = \left( \mathcal{L}\{\rho_i\} - k\mathcal{L}\{x_i\} \right) \frac{1}{\tau} \quad \iff \quad \frac{\mathcal{L}\{x_i\}}{\mathcal{L}\{\rho_i\}} = \frac{1}{\tau s + k}.
+\end{equation}
+When $k = 1$, this is commonly referred to as a first-order lowpass filter with time-constant $\tau$.
+This effect of this filter in the time-domain is a convolution with the exponentially decaying function $h(t) := \tau^{-1} \exp\left( -t / \tau \right)$.
+More generally, when $k > 0$, this has the transfer function:
+\begin{equation}
+\frac{1}{\tau s + k} = \frac{k^{-1}}{(\tau k^{-1})s + 1}
+\end{equation}
+which is the same lowpass with an effective time-constant of $(\tau k^{-1})$ and a multiplicative gain of $k^{-1}$.
+In plain words, different values of $k > 0$ do nothing but alter the effective time-constant and the effective gain on the input.
+%,which are already free parameters in the NEF.
+%Setting $k = 1$ is most convenient since this yields the time-constant $\tau$ with unit gain.
+
+Therefore, by setting $k = 1$, we have $x_i = \rho_i \ast h$ provided that $\beta \sum_{j \ne i} x_j = 0$.
+% Since the NEF gives us freedom to vary such gains and time-constants (at the representational level) independently of the underlying neural and synaptic model parameters (via principles 1 and 3, respectively), it suffices to fix $k = 1$ for simplicity.
+Below we prove that the latter assumption eventually holds whenever $i$ is the index of the winner and $\beta = 1$, and so the winner $x_i$ will converge to the value of its input $\rho_i$.
+
+\newpage
+
+\subsection{Effect of $\beta = 1$}
+
+Setting $\beta = k = 1$, and defining $\chi := \sum_{j} x_j$, we rewrite the dynamics as:
+\begin{equation} \label{eq:um-special}
+    \begin{split}
+        \frac{{\partial x}_i}{\partial t} &= \left(\rho_i - \chi \right) \frac{1}{\tau} \\
+        x_i &\rightarrow \max(x_i, 0) .
+    \end{split}
+\end{equation}
+We conceptualize $\chi$ as a single `meta state-variable' that, based on the value of each $\rho_i$, will change each corresponding $x_i$.
+% For instance, we know that $\chi > \rho_i \iff \frac{{\partial x}_i}{\partial t} < 0$.
+% This tells us that all $x_i$ will decrease until they are bounded by $0 \le x_i \le \rho_i$.
+For instance, if $i$ is the index of the winner, then $x_i$ is necessarily only stable when $\chi = \rho_i \iff \frac{{\partial x}_i}{\partial t} = 0$.
+Assuming stability, $\chi = \rho_i > \rho_j$ for all $j \ne i$, and thus each $x_j$ necessarily has a negative derivative.
+Consequently, all losers $x_j$ will decrease to 0 and stabilize there due to rectification (and then $\chi = \rho_i = x_i$ holds as anticipated).
+
+We also remark that if $\beta \ne 1$ then the derivatives are no longer sorted by their inputs, and in fact the order will depend on the current state (for instance, it will depend on the previous winner if the inputs were just altered). Consequently, if $\beta < 1$, then not all losers will necessarily go to zero, and if $\beta > 1$, then the previous winner may persist.
+
+\section{Independent Accumulator Model Analysis}
+
+The model dynamics for the independent accumulator (IA) are given as follows:
+\begin{equation}
+    \begin{split}
+        \frac{{\partial x}_{1,i}}{\partial t} &= \lambda \rho_i \frac{1}{\tau_1} + \left( 
+            \bar{x}_{2,i} - \bar{\beta} \sum_{j \neq i} \bar{x}_{2,j} \right) \frac{1}{\tau_2} \\
+        x_{1,i} &\rightarrow \max(x_{1,i}, 0) ,
+    \end{split}
+\end{equation}
+where $\bar{x}_{2, i} := \Theta(x_{2,i} - \vartheta)$ is defined by the Heaviside function shifted by $\vartheta$.
+We now justify our choice of $\bar{\beta} = 2$ from the text. % Fixing $\lambda = 1$, $\tau_1 = \tau_2$.
+
+\subsection{Effect of $\bar{\beta} > 1 + \lambda \max_i\{\rho_i\} \frac{\tau_2}{\tau_1}$}
+
+Suppose index $i$ is a loser.
+We know that $\bar{x}_{2,i} \le 1$, and $\sum_{j \ne i} \bar{x}_{2,j} \ge 1$, since the Heaviside is bounded above by 1, and some other $j \ne i$ has surpassed its threshold by becoming the winner.
+Thus,
+\begin{align}
+ \frac{{\partial x}_{1,i}}{\partial t} \le \lambda \rho_i \frac{1}{\tau_1} + \left( 1 - \bar{\beta} \right) \frac{1}{\tau_2} < 0 \quad \iff \quad \bar{\beta} > 1 + \lambda \max_i\{\rho_i\} \frac{\tau_2}{\tau_1} ,
+\end{align}
+which implies that we must enforce the latter condition on $\bar{\beta}$ in order to ensure that all losers go to zero. 
+In the text, $\lambda = 1$, $\tau_1 = \tau_2$, and $\max_i\{\rho_i\} < 1$ $\implies \bar{\beta} = 2$ will suffice.
+
+\end{document}

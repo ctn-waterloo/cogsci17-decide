@@ -128,18 +128,17 @@ TODO
 \subsection{Leaky, competing accumulator model}
 We implement the widely used, leaky, competing accumulator (LCA) model proposed 
 by~\citeA{usher2001}.  The dynamics for the state variables $x_i,\ i < N$, where 
-$N$ is the number of choices, are given by
-\begin{equation}\label{eqn:usher-mcclelland}
+$N$ is the number of choices, are given by:
+\begin{equation} \label{eqn:usher-mcclelland}
     \begin{split}
-        \dif x_i &= \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) 
-        \frac{\dif t}{\tau} \\
-    x_i &\rightarrow \max(x_i, 0)
+        \frac{{\partial x}_i}{\partial t} &= \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) \frac{1}{\tau} \\
+        x_i &\rightarrow \max(x_i, 0) ,
     \end{split}
 \end{equation}
 where $\rho_i$ is the external input, $k$ is the leak rate, $\beta$ the lateral 
-inhibition, and $\tau$ the time constant. Note that one usually wants to set $k 
-= \beta$ because TODO\@. Here, we chose $k = \beta = 1$. TODO what does changing 
-this control? Why can we fix it at 1? (Or at least why is it convenient?)
+inhibition, and $\tau$ the time constant.
+We set $k = \beta = 1$, since this will guarantee that the winning state converges to the value of its input, while the losing states converge to zero.
+Other choices of $k$ merely alter the effective $\tau$ and the effective gain on the input, while other choices of $\beta$ will produce unwanted behaviour (see supplementary analysis).
 
 Equation~\ref{eqn:usher-mcclelland} can easily be implemented with the NEF by 
 using one population of neurons for each $x_i$.  We believe this implementation 
@@ -168,16 +167,15 @@ $\bar{x}_{2,i} = \Theta(x^2_i - \vartheta)$ from it where $\vartheta = 0.8$ is
 a threshold value controlling how much evidence needs to be accumulated to 
 produce an output.
 The Heaviside decoded output of layer 2 projects back to layer 1 to add 
-$\bar{x}_{2,i} - 2\sum_{j \neq i} \bar{x}_{2,j}$ to the input of $x_{1,i}$. As 
-effect the choice will be stabilized while all other state variables will be 
+$\bar{x}_{2,i} - \bar{\beta} \sum_{j \neq i} \bar{x}_{2,j}$ to the input of $x_{1,i}$.
+For $\bar{\beta} = 2$ (see supplementary analysis), the correct choice will self-excite while all other state variables will be 
 suppressed once one of the accumulators reaches the threshold $\vartheta$.  The 
-dynamics are described by the following equations.
+dynamics are described by the following equations:
 \begin{equation}
     \begin{split}
-        \dif x_{1,i} &= \lambda \rho_i \frac{\dif t}{\tau_1} + \left( 
-            \bar{x}_{2,i} - 2\sum_{j \neq i} \bar{x}_{2,j} \right) \frac{\dif 
-            t}{\tau_2} \\
-    x_{1,i} &\rightarrow \max(x_{1,i}, 0) \text{.}
+        \frac{{\partial x}_{1,i}}{\partial t} &= \lambda \rho_i \frac{1}{\tau_1} + \left( 
+            \bar{x}_{2,i} - \bar{\beta} \sum_{j \neq i} \bar{x}_{2,j} \right) \frac{1}{\tau_2} \\
+        x_{1,i} &\rightarrow \max(x_{1,i}, 0) .
     \end{split}
 \end{equation}
 
@@ -216,14 +214,14 @@ layer 2 population. Further parameters are summarized in Table~\ref{tbl:params}.
         LCA time constant & $\tau = \SI{0.1}{\second}$ \\
         LCA recurrency parameters & $k = \beta = 1$ \\
         IA accumulation time constant & $\tau_1 = \SI{0.1}{\second}$ \\
-        IA feed-back time constant & $\tau_2 = \SI{100}{\second}$ \\
+        IA feed-back time constant & $\tau_2 = \SI{0.1}{\second}$ \\
         IA threshold & $\vartheta = 0.8$ \\
         Recurrent synaptic time constant & $\tau_{\mathrm{s}} 
         = \SI{0.1}{\second}$ \\
         Feed-forward synaptic time constant & $\tau_{\mathrm{s}} 
-        = \SI{5}{\milli\second}$ \\
+        = \SI{0.005}{\second}$ \\
         Output decoding synaptic time constant & $\tau_{\mathrm{s}} 
-        = \SI{10}{\milli\second}$
+        = \SI{0.01}{\second}$
     \end{tabular}
 \end{table}
 
