@@ -199,7 +199,7 @@ Further parameters are summarized in Table~\ref{tbl:params}.
 To evaluate the two mechanisms on this input, we use a number of separate metrics.
 First we determine whether the model is able to form a clear decision at all within a second of simulated time.
 To count as a clear decision, at least one output needs to stay above 0.15 for the time interval
-$[\SI{1}{\second}, \SI{2}{\second}]$. % chktex 10
+$(\SI{1}{\second}, \SI{2}{\second}]$. % chktex 9
 This lower bound was chosen to ensure that noise on a zero output is not mistaken as a non-zero output.
 Furthermore, we require that the largest output will be the largest output for all of the time interval or in other words the decision does not change during that time interval.
 This does not take into account whether the winning output actually corresponds to the strongest input, but sometimes it can be more desirable to produce a clear decision than actually finding the strongest input in all instances.
@@ -214,7 +214,7 @@ Ideally, the output would be 1 for the winner and zero for all other outputs.\fo
 We use 1 here as it is most convenient to work with.} The LCA dynamics, however, prescribe an output of $u$ for the winner with $u$ being the largest input.
 We define the \emph{winner error} $E_1$ as the difference of the winner output from $u$ for the LCA model, as the difference from 1 for the IA model and, for both models, the \emph{runner-up error} $E_2$ as the difference of second largest output from 0 (negative values treated as 0).
 We use the average output values of the time   interval
- $]\SI{1}{\second}, \SI{2}{\second}]$ % chktex 10
+ $(\SI{1}{\second}, \SI{2}{\second}]$ % chktex 9
 to calculate these error values as the values fluctuate over time.
 These two metrics only look at the final output averaged over time, but the model can produce transient outputs before the final decision is achieved.
 Within the context of a larger model, this can be a problem as the transient output could already be interpreted as a decision.
