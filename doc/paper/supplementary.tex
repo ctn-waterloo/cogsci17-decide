@@ -27,8 +27,7 @@
 The model dynamics for the leaky, competing accumulator (LCA) are given as follows:
 \begin{equation}
     \begin{split}
-        \frac{{\partial x}_i}{\partial t} &= \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) \frac{1}{\tau} \\
-        x_i &\ge 0 .
+        \frac{{\partial x}_i}{\partial t} = \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) \frac{1}{\tau}, \quad x_i \ge 0 .
     \end{split}
 \end{equation}
 We now justify our choice of $k = \beta = 1$ from the text.
@@ -72,8 +71,7 @@ Below we prove that the latter assumption eventually holds whenever $i$ is the i
 Setting $\beta = k = 1$, and defining $\chi := \sum_j x_j$, we rewrite the dynamics as:
 \begin{equation} \label{eq:um-special}
     \begin{split}
-        \frac{{\partial x}_i}{\partial t} &= \left(\rho_i - \chi \right) \frac{1}{\tau} \\
-        x_i &\ge 0.
+        \frac{{\partial x}_i}{\partial t} = \left(\rho_i - \chi \right) \frac{1}{\tau}, \quad x_i \ge 0.
     \end{split}
 \end{equation}
 We conceptualize $\chi$ as a single `meta state-variable' that, based on the value of each $\rho_i$, will change each corresponding $x_i$.
@@ -90,9 +88,8 @@ We also remark that if $\beta \ne 1$ then the derivatives are no longer sorted b
 The model dynamics for the independent accumulator (IA) are given as follows:
 \begin{equation}
     \begin{split}
-        \frac{{\partial x}_i}{\partial t} &= \lambda \rho_i \frac{1}{\tau_1} + \left( 
-            \bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j \right) \frac{1}{\tau_2} \\
-        x_i &\ge 0 ,
+        \frac{{\partial x}_i}{\partial t} = \lambda \rho_i \frac{1}{\tau_1} + \left( 
+            \bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j \right) \frac{1}{\tau_2}, \quad x_i \ge 0 ,
     \end{split}
 \end{equation}
 where $\bar{x}_i := \Theta(x_i - \vartheta)$ is defined by the Heaviside function $\Theta$ shifted by $\vartheta$.
@@ -104,7 +101,7 @@ Suppose index $i$ is a loser.
 We know that $\bar{x}_i \le 1$, and $\sum_{j \ne i} \bar{x}_j \ge 1$, since the Heaviside is bounded above by 1, and some other $j \ne i$ has surpassed its threshold by becoming the winner.
 Thus,
 \begin{align}
- \frac{{\partial x}_i}{\partial t} \le \lambda \max_i\{\rho_i\} \frac{1}{\tau_1} + \left( 1 - \bar{\beta} \right) \frac{1}{\tau_2} < 0 \quad \iff \quad \bar{\beta} > 1 + \lambda \max_i\{\rho_i\} \frac{\tau_2}{\tau_1} ,
+    \frac{{\partial x}_i}{\partial t} \le \lambda \max_i\{\rho_i\} \frac{1}{\tau_1} + \left( 1 - \bar{\beta} \right) \frac{1}{\tau_2} < 0 \quad \iff \quad \bar{\beta} > 1 + \lambda \max_i\{\rho_i\} \frac{\tau_2}{\tau_1} ,
 \end{align}
 which implies that it suffices to enforce the latter condition on $\bar{\beta}$ in order to ensure that all losers go to zero. 
 In the text, $\lambda = 1$, $\tau_1 = \tau_2$, and $\max_i\{\rho_i\} < 1$ $\implies \bar{\beta} = 2$ is sufficient.

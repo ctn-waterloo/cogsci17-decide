@@ -80,7 +80,7 @@ We provide a short introduction to the NEF, describe our implementation of the t
 
 \subsection{The Neural Engineering Framework}
 The Neural Engineering Framework~\cite<NEF;>{eliasmith2003} is a method of mapping a cognitive model, described using mathematical equations, onto a spiking neural network.
-We now summarize the relevant aspects of this framework, ordered by its three principles: \emph{representation}, \emph{transformation}, and \emph{dynamics}.
+We now describe the aspects of this framework that are relevant to this work, by summarizing its three principles: \emph{representation}, \emph{transformation}, and \emph{dynamics}.
 
 \subsubsection{Principle 1: Representation}
 We define the representation of a scalar value $x(t)$ by an encoding and decoding with respect to some population of neurons.
@@ -95,15 +95,14 @@ Decoding weights $d_i$ are then used to approximate the represented value $\hat 
     \hat x(t) = \sum_i d_i \left[(a_i * h)(t)\right] ,
 \end{equation}
 where $h(t) = \tau_{\mathrm{s}}^{-1}\exp(t/\tau_{\mathrm{s}})$ is an exponentially decaying synaptic filter with time-constant $\tau_{\mathrm{s}}$, and $\ast$ is the convolution operator.
-The decoding weights are obtained by least-squares optimization of the error $E_x = \abs{x     - \hat{x}}$.
+The decoding weights are obtained by least-squares optimization of the error $E_x = \abs{x - \hat{x}}$.
 For the transmission of a value from one population to another, the connection weights are given by:
 \begin{equation}
     W_{ij} = \alpha_j d_i \text{.}
 \end{equation}
 
 \subsubsection{Principle 2: Transformation}
-By finding alternate decoding weights $d^f_i$ with the error given by $E_{f(x)} 
-= \abs{f(x) - \hat x}$ arbitrary linear and nonlinear functions $f(x)$ can be approximated in the connections between neural populations.
+By finding alternate decoding weights $d^f_i$ with the error given by $E_{f(x)} = \abs{f(x) - \hat x}$, arbitrary linear and nonlinear functions $f(x)$ can be approximated in the connections between neural populations.
 
 \subsubsection{Principle 3: Dynamics}
 Given some nonlinear dynamics for the state variable $x(t)$:
