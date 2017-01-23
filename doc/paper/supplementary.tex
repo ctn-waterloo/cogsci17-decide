@@ -50,7 +50,7 @@ We then take the Laplace transform of both sides, and rearrange to obtain:
 s\mathcal{L}\{x_i\} = \left( \mathcal{L}\{\rho_i\} - k\mathcal{L}\{x_i\} \right) \frac{1}{\tau} \quad \iff \quad \frac{\mathcal{L}\{x_i\}}{\mathcal{L}\{\rho_i\}} = \frac{1}{\tau s + k}.
 \end{equation}
 When $k = 1$, this is commonly referred to as a first-order lowpass filter with time-constant $\tau$.
-This effect of this filter in the time-domain is a convolution with the exponentially decaying function $h(t) := \tau^{-1} \exp\left( -t / \tau \right)$.
+The effect of this filter in the time-domain is a convolution with the exponentially decaying function $h(t) := \tau^{-1} \exp\left( -t / \tau \right)$.
 More generally, when $k > 0$, this has the transfer function:
 \begin{equation}
 \frac{1}{\tau s + k} = \frac{k^{-1}}{(\tau k^{-1})s + 1}
