@@ -110,7 +110,7 @@ Given some nonlinear dynamics for the state variable $x(t)$:
     \frac{\partial x}{\partial t} = g(x) ,
 \end{equation}
 we can map these dynamics onto a recurrent transformation, by harnessing the synaptic filter used in Principle 1.
-In particular, for the exponentially decaying $h(t)$ we may apply Principle 2 to the recurrent transformation $f(x) = \tau_s g(x) + x$ to ensure that $x(t)$ obeys (\ref{eqn:nonlinear-system}).
+In particular, for the exponentially decaying $h(t)$ we may apply Principle 2 to the recurrent transformation $f(x) = \tau_s g(x) + x$ to ensure that $x(t)$ obeys Equation~\ref{eqn:nonlinear-system}.
 
 \subsection{Leaky, competing accumulator model}
 We implement the widely-used leaky, competing accumulator (LCA) model proposed by~\citeA{usher2001}.
@@ -126,12 +126,12 @@ Supposing $\rho_i > \rho_j$ for all $j \ne i$, a WTA mechanism should indicate t
 Setting $k = \beta = 1$ will guarantee that the winning state $x_i$ converges to the value of the largest input $\rho_i$, while the losing states $x_j$ ($j \ne i$) converge to zero.
 Other choices of $k$ merely alter the effective $\tau$ and the effective gain on the input, while other choices of $\beta$ will produce unwanted behaviour (see supplementary analysis).
 
-We implement (\ref{eqn:usher-mcclelland}) with the NEF by using one population of neurons for each $x_i$, and applying Principle~3 to each population.
+We implement Equation~\ref{eqn:usher-mcclelland} with the NEF by using one population of neurons for each $x_i$, and applying Principle~3 to each population.
 By appropriately selecting the gain and bias parameters from Principle~1, we ensure that each state variable is rectified ($x_i \ge 0$) as required.
 We believe this implementation is novel as it it does not interpret each $x_i$ as a distinct neural firing rate, but rather as a population-level representation distributed across any number of spiking neurons.
 In effect, heterogeneous spike trains are weighted by optimal decoding weights to precisely implement the stated dynamics.
 %As such, the model equations do not impose restrictions on the neuron model or requires to lump the neurons into a single population firing rate.
-This allows us to attain greater biological realism without altering the dynamics prescribed by (\ref{eqn:usher-mcclelland}).
+This allows us to attain greater biological realism without altering the dynamics prescribed by Equation~\ref{eqn:usher-mcclelland}.
 
 \begin{figure}
     \centering
