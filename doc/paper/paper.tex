@@ -149,7 +149,7 @@ This allows us to attain greater biological realism without altering the dynamic
 The other WTA mechanism that we investigate is our proposed independent accumulator (IA) model.
 We use the term `independent' to refer to the fact that there are no direct interactions between each accumulator, unlike in the LCA model which has direct competition between states.
 To enable a form of competition, we add a second thresholding layer that  projects back to self-excite and mutually-inhibit the first layer.
-We now provide the details of each layer, again implemented with the principles of the NEF.
+We now provide the details of each layer, again implemented with the principles of the NEF\@.
 \todo{Network diagram?}
 
 The first layer consists of a separate integrator population (i.e., accumulator) for each state variable $x_i(t), \ i < D$.
@@ -231,7 +231,7 @@ We use $1$ for convenience.}
 \todo{Have you tried decoding a threshold (say $\Theta(x_i - 0.15)$) off the LCA network?}
 The LCA dynamics, however, prescribe an output of $u$ for the winner, with $u$ being the largest input.
 We define the `winner error' $E_1$ as the difference of the winner output from $u$ for the LCA network, as the difference from one for the IA network and, for both models, the `runner-up error' $E_2$ as the difference of second largest output from zero (with negative values treated as zero).
-We use the average output values over the time interval $(\SI{1}{\second}, \SI{2}{\second}]$ to calculate these error values (since these values fluctuate over time).
+We use the average output values over the time interval $(\SI{1}{\second}, \SI{2}{\second}]$ to calculate these error values (since these values fluctuate over time).  % chktex 9
 These two metrics only consider the final output averaged over time, but the model can produce transient outputs before the final decision is achieved.
 Within the context of a larger model, this can be a problem as the transient output could be prematurely interpreted as a decision.
 Thus, we define $E_{2,\max}$ as the `highest output of a losing choice' during the whole simulation.
