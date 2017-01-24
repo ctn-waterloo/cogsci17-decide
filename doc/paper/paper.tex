@@ -139,10 +139,10 @@ This allows us to attain greater biological realism without altering the dynamic
 \begin{figure}
     \centering
     \includegraphics{figures/usher-mcclelland}
-    \caption{ \label{fig:usher-mcclelland}
+    \caption{
         Example time course of the state variables in the LCA network with three choices.
         The vector of inputs is given by $(0.8, 0.7, 0.6)$.
-    }
+    }\label{fig:usher-mcclelland}
 \end{figure}
 
 \subsection{Independent accumulator model}
@@ -175,11 +175,11 @@ This is summarized more precisely by the following dynamics (see Fig.~\ref{fig:i
 \begin{figure}
     \centering
     \includegraphics{figures/indacc}
-    \caption{ \label{fig:indacc}
+    \caption{
         Example time course of the state variables $x_i$ and decoded output $\bar{x}_i$ in the IA network with three choices.
         The vector of inputs is given by (0.8, 0.7, 0.6).
         \todo{Put next to (or below) first figure.}
-    }
+    }\label{fig:indacc}
 \end{figure}
 
 \subsection{Benchmarks}
@@ -248,11 +248,11 @@ This is not the case for the LCA network where the fraction of trials without a 
 \begin{figure}
     \centering
     \includegraphics{figures/decisions}
-    \caption{ \label{fig:decisions}
+    \caption{
         Fraction of trials with a clear decision for different input noise standard deviations $\sigma$ and target separations $s$ for the LCA network.
         Error bars denote bootstrapped 95\% confidence intervals.
         The grey horizontal line shows the optimum.
-    }
+    }\label{fig:decisions}
 \end{figure}
 
 However, when considering the correctness of the decisions (see Fig.~\ref{fig:correct}) the LCA network does better with the default parameters.
@@ -265,11 +265,11 @@ By using identical layer 2 populations, i.e.~identical gain and bias parameters 
 \begin{figure*}
     \centering
     \includegraphics{figures/correct}
-    \caption{ \label{fig:correct}
+    \caption{
         Fraction of correct trials for different input noise standard deviations $\sigma$, target separations $s$, and models.  
         Error bars denote bootstrapped 95\% confidence intervals.
         The grey horizontal line shows the optimum.
-    }
+    }\label{fig:correct}
 \end{figure*}
 
 The time required to reach a decision in the LCA network depends mostly on the target separation and the amount of noise on the input (see Fig.~\ref{fig:time}\todo{put a and b here too and reference them in the discussion}), the magnitude of the largest input is of minor influence.
@@ -280,12 +280,12 @@ There is also a slight influence of target separation and input noise with an in
 \begin{figure*}
     \centering
     \includegraphics{figures/time}
-    \caption{ \label{fig:time}
+    \caption{
         Mean decision times for different input noise standard deviations $\sigma$ and target separations $s$ for the LCA and IA networks.
         For the IA network $u = 0.2$ is shown which shows the interaction of target separation and input noise most clearly.
         Error bars denote bootstrapped 95\% confidence intervals.
         The grey horizontal lines show the optimum.
-    }
+    }\label{fig:time}
 \end{figure*}
 
 The output of the IA network matches almost perfectly the specifications of producing an output of one for the winner and zero for all other choices \todo{a line on the LCA graph would help here too}.
@@ -295,11 +295,11 @@ Furthermore, the LCA network will have residual outputs of losing choices under 
 \begin{figure*}
     \centering
     \includegraphics{figures/error}
-    \caption{ \label{fig:error}
+    \caption{
         Error on outputs for different input noise standard deviations $\sigma$ and target separations $s$ for the LCA network.
         Error bars denote bootstrapped 95\% confidence intervals.
         The grey horizontal lines show the optimum.
-    }
+    }\label{fig:error}
 \end{figure*}
 
 Finally, looking at the transient responses both models might produce outputs of losing choices (see Fig.~\ref{fig:transient}).
@@ -309,11 +309,11 @@ The magnitude of such transient responses is reduced by decreasing the input sca
 \begin{figure*}
     \centering
     \includegraphics{figures/transient}
-    \caption{ \label{fig:transient}
+    \caption{
         Highest output of losing choices for different input noise standard deviations $\sigma$ and target separations $s$ for the LCA and IA networks.
         Error bars denote bootstrapped 95\% confidence intervals.
         The grey horizontal lines show the optimum.
-    }
+    }\label{fig:transient}
 \end{figure*}
 
 \section{Discussion}
