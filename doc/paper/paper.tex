@@ -186,10 +186,10 @@ This is summarized more precisely by the following dynamics (see Fig.~\ref{fig:i
 To test and compare the two WTA mechanisms we provide an input of $\rho_i = u - s(1 - \delta_{1i}) + \eta_i$, where $u$ is the strength of the strongest input, 
 $s > 0$ is the target separation relative to all other inputs, $\delta$ is the Kronecker delta, and $\eta_i$ is Gaussian (white) noise with standard deviation $\sigma$.
 Thus, without loss of generality, the first state variable receives the strongest input $u$ plus noise, and all other state variables receive a noisy input that is smaller by $s$.
-We chose this input because, as $\rho_i \rightarrow 0$, the influence of input $\rho_i$ will decrease and the effective number of choices to decide between  decreases.
-\todo{I don't understand the previous sentence; ce: changed it a bit, but am also unsure}
+Since all of the runner-ups have equal magnitude, this represents the most difficult scenario of the network's capability where all potential choices must be considered.
 As $s \rightarrow 0$ the problem becomes more difficult because the utilities of the choices are closer together.
 We will use $u = 1$ unless indicated otherwise, and set the number of choices to $D = 10$.
+Further, we chose noise variance increments large enough to observe how the networks start to fail performing their task.
 In both WTA models we use 200 neurons per choice.
 In the IA network this is split into 150 neurons for each layer 1 population and 50 neurons for each layer 2 population.
 All remaining network parameters are summarized in Table~\ref{tbl:params}.
