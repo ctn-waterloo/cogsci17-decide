@@ -149,7 +149,7 @@ This allows us to attain greater biological realism without altering the dynamic
 The other WTA mechanism that we investigate is our proposed independent accumulator (IA) model.
 We use the term `independent' to refer to the fact that there are no direct interactions between each accumulator, unlike in the LCA model which has direct competition between states.
 To enable a form of competition, we add a second thresholding layer that  projects back to self-excite and mutually-inhibit the first layer.
-We now provide the details of each layer.
+We now provide the details of each layer, again implemented with the principles of the NEF.
 \todo{Network diagram?}
 
 The first layer consists of a separate integrator population (i.e., accumulator) for each state variable $x_i(t), \ i < D$.
@@ -161,12 +161,10 @@ Fixing $\bar{\beta} = 2$ ensures that the losing state variables will go to zero
 This is summarized more precisely by the following dynamics (see Fig.~\ref{fig:indacc}):
 \begin{equation}
     \begin{split}
-        \frac{{\partial x}_i}{\partial t} = \lambda \rho_i \frac{1}{\tau_1} + \left( 
+        \frac{{\partial x}_i}{\partial t} = \rho_i \frac{1}{\tau_1} + \left( 
             \bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j \right) \frac{1}{\tau_2} , \quad x_i &\ge 0 .
     \end{split}
 \end{equation}
-We set $\lambda = 1$ to be consistent with the LCA model.
-% should we mention that we use Principle 3 to implement each integrator
 % should we say anything about how the thresholding population works?
 
 %Instead of controlling the threshold $\vartheta$, it is more convenient to keep $\vartheta$ fixed and scale the input with the $\lambda$ parameter -- mathematically this is equivalent.
