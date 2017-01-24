@@ -88,9 +88,9 @@ We now describe the aspects of this framework that are relevant to this work, by
 We define the representation of a scalar value $x(t)$ by an encoding and decoding with respect to some population of neurons.
 The encoding of $x(t)$ into a spike train $a_i(t)$ for neuron $i$ is given by:
 \begin{equation}
-    a_i(t) = G_i\left[\alpha_i e x(t) + J_i^{\mathrm{bias}}\right] ,
+    a_i(t) = G_i\left[\alpha_i e_i x(t) + J_i^{\mathrm{bias}}\right] ,
 \end{equation}
-where $\alpha_i$ is a gain factor, $e$ is an encoder that determines a neuron's tuning curve, $J_i^{\mathrm{bias}}$ a bias current, and $G_i \left[ \cdot \right]$ is the neural nonlinearity.
+where $\alpha_i$ is a gain factor, $e_i$ is an encoder that determines a neuron's tuning curve, $J_i^{\mathrm{bias}}$ a bias current, and $G_i \left[ \cdot \right]$ is the neural nonlinearity.
 Here, we use spiking, leaky integrate-and-fire (LIF) neurons for $G_i \left[ \cdot \right]$, and choose the encoders randomly.
 Decoding weights $d_i$ are then used to approximate the represented value $\hat x(t)$ from the activity of the population of neurons by:
 \begin{equation}
