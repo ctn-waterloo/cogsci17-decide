@@ -195,6 +195,7 @@ Since all of the runner-ups have equal magnitude, this represents the most diffi
 As $s \rightarrow 0$ the problem becomes more difficult because the utilities of the choices are closer together.
 We will use $u = 1$ unless indicated otherwise, and set the number of choices to $D = 10$.
 Further, we chose noise variance increments large enough to observe how the networks start to fail performing their task.
+This allows us to figure out which functions are performed more robustly by each network.
 In both WTA models we use 200 neurons per choice.
 In the IA network this is split into 150 neurons for each layer 1 population and 50 neurons for each layer 2 population.
 All remaining network parameters are summarized in Table~\ref{tbl:params}.
@@ -234,32 +235,34 @@ In the context of a larger model, this can become a problem because the transien
 Thus, we define $E_{\max}$ as the `highest output of a losing choice' during the whole simulation.
 
 \section{Results}
-We find that the ability to form a clear decision of the LCA network decreases with more noise and less target separation (see Fig.~\ref{fig:decisions}).
+We find that the ability to form a clear decision of the LCA network decreases with more noise and less target separation  (see Fig.~\ref{fig:decisions}).
+Also, the baseline has an important influence.
+For a small baseline of $u=0.2$ the winner will mostly not exceed the 0.15 threshold with noise present.
 The best performance is achieved with a medium baseline of $u=0.6$.
-A higher baseline makes it more likely that runner-ups will exceed the 0.15 threshold, especially wit ha small target separation.
-With a small baseline, on the other hand, even the winner can be unable to exceed the threshold in the presence of noise.
+A higher baseline makes it more likely that runner-ups will exceed the 0.15 threshold, especially with a small target separation.
 In contrast to the LCA network, the IA network manages to form a clear decision in every trial (not explicitly shown in Figure~\ref{fig:decisions}, but all data points fall on the grey line).
 \begin{figure*}
     \centering
     \includegraphics{figures/decisions}
     \caption{
-        Fraction of trials with a clear decision for different input noise standard deviations $\sigma$ and target separations $s$ for the LCA network.
+        Fraction of trials with a clear decision for different input noise standard deviations $\sigma$, target separations $s$, and input baselines $u$ for the LCA network.
         Error bars denote bootstrapped 95\% confidence intervals.
         The grey horizontal line shows the optimum.
+        It coincides with the performance of the IA network.
     }\label{fig:decisions}
 \end{figure*}
 
-Interestingly, in 99.97\% of successful decisions, the correct winner was determined by the LCA network.
+Interestingly, for all successful decisions the correct winner was determined by the LCA network.
 Thus, a plot of correct trials looks virtually identical to Figure~\ref{fig:decisions}.
 While always reaching a decision, the decisions of the IA network are not always correct (see Fig.~\ref{fig:correct}).
-Overall, the IA performance tends to worse for a high baseline, but better for a low baseline.
-We can greatly improve the IA performance by increasing $\tau_1$ which effectively adjusts the threshold $\vartheta$.
-This will, however, make the network slower to decide.
-A further improvement is possible by eliminating a systematic bias introduced in the second layer of the IA network.
+Overall, the IA performance tends to be worse for a high baseline, but better for a low baseline (Fig.~\ref{fig:correct}a,b).
+We can greatly improve the IA performance by increasing $\tau_1$ to \SI{0.5}{\second} which effectively adjusts the threshold $\vartheta$ (Fig.~\ref{fig:correct}c).
+This improves the IA performance to be above the LCA performance for high baselines, but it will also increase the decisions times of the IA network.
+For a low baseline of $u=0.2$ this makes the IA network unable to decide within the allocated time frame, but given more time it would still reach a decision.
+A further improvement to the IA network is possible by eliminating a systematic bias introduced in the second layer of the IA network.
 In the NEF the neuron gain and bias parameters are usually picked from random distributions.
 As such the layer 2 populations will become active at slightly different thresholds.
-By using identical layer 2 populations, i.e.~identical gain and bias parameters for each population, this bias can be eliminated and the IA network performs even better.
-\todo{label fig 4 with a, b,c d and refer to those letters in the discussion above}
+By using identical layer 2 populations, i.e.~identical gain and bias parameters for each population, this bias can be eliminated and the IA network performs even better (Fig.~\ref{fig:correct}d).
 \begin{figure*}
     \centering
     \includegraphics{figures/correct}
@@ -270,27 +273,26 @@ By using identical layer 2 populations, i.e.~identical gain and bias parameters 
     }\label{fig:correct}
 \end{figure*}
 
-The time required to reach a decision in the LCA network depends mostly on the baseline and target separation (see Fig.~\ref{fig:time}\todo{put a and b here too and reference them in the discussion}).
-Similarly, in the IA network the magnitude of the largest input is also the most important factor.
+The time required to reach a decision in the LCA network depends mostly on the baseline and target separation (see Fig.~\ref{fig:time}a).
+The level of noise only had a minor influence and was averaged over.
+Similarly, in the IA network the baseline is also the most important factor (dashed vs. solid lines in Fig.~\ref{fig:time}b).
 Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time to achieve the same fraction of correct responses.
-There is also a slight influence of target separation and input noise with an interaction of these two parameters.
-\todo{this might need some rewriting given new results}
+There is also a slight influence of target separation and input noise with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
 \begin{figure*}
     \centering
     \includegraphics{figures/time}
     \caption{
-        Mean decision times for different input noise standard deviations $\sigma$ and target separations $s$ for the LCA and IA networks.
-        For the IA network $u = 0.2$ is shown which shows the interaction of target separation and input noise most clearly.
+        (a) Mean decision times for different baselines $u$ and target separations $s$ for the LCA.
+        (b) For the IA network $u = 0.2$ (solid) and $u = 1.0$ (dashed) are shown for different noise standard deviations $s$ and target separations $s$.
         Error bars denote bootstrapped 95\% confidence intervals.
-        The grey horizontal lines show the optimum.
     }\label{fig:time}
 \end{figure*}
 
 
 Finally, looking at the transient responses both models might produce outputs of losing choices (see Fig.~\ref{fig:transient}).
-For the LCA network these increase with noise on the input and, for small target separation, can approach the final output of the winning choices.
-For the IA network, transient outputs are smaller in noisy conditions, but can be higher than for the LCA network in less noisy conditions.
-The magnitude of such transient responses is reduced by decreasing the input scaling.
+For the LCA network the magnitude of the transient response mainly increases with the amount of noise (Fig.~\ref{fig:transient}a).
+For the IA network, transient outputs are smaller in noisy conditions, but can be higher than for the LCA network in less noisy conditions with small target separations.
+The magnitude of such transient responses is reduced by decreasing by adjusting $\tau_1$ to 0.5.
 \begin{figure*}
     \centering
     \includegraphics{figures/transient}
@@ -303,10 +305,10 @@ The magnitude of such transient responses is reduced by decreasing the input sca
 
 \section{Discussion}
 We have shown that neither network performs better on all benchmarks, but rather each is better suited for different purposes.
-For instance, the LCA network determines the correct winner more quickly and given a conclusive decision was made it is almost always the correct decision.
+For instance, the LCA network can determine the correct winner more quickly and given a conclusive decision was made, it is always picks the correct winner.
 However, under noisy conditions it may fail to produce a clear output at all, and thus not make a decision.
 This can be problematic in situations were it is better or required to make a decision even though it might not be the best choice.
-The IA network might not be as quick or find the correct winner as often depending on the choice of $\tau_1$, but given enough time it will eventually arrive at a decision and produce a clear output.
+The IA network might not be able to identify the correct winner as quickly or as reliably (depending on the choice of $\tau_1$), but given enough time it will eventually arrive at a decision and produce a clear output.
 
 Furthermore, the LCA network is especially well-suited for situations where a decision needs to be continuously adjusted.
 The prescribed dynamics essentially try to output whatever the currently largest input is, while performing some smoothing over time.
