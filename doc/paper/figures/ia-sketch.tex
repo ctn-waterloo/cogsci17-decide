@@ -59,5 +59,9 @@
     \foreach \i/\j in {2/1, D/1, D/2} {
         \draw (bar-x\i) [inhibit, in=-20, out=160]  to (x\j);
     }
+
+    \node (l1) [above=0.2cm of x1] {Layer 1};
+    \node [above=0.2cm of bar-x1] {Layer 2};
+    \node [left=0.1cm of l1] {Inputs};
 \end{tikzpicture}
 \end{document}
