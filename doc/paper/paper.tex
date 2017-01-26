@@ -60,7 +60,7 @@ decision making; mutual inhibition; neural competition; dynamical systems
 \section{Introduction}
 
 Winner-take-all (WTA) networks provide a mechanism that selects the largest value among a number of possible inputs.
-More precisely, given a $D$-dimensional vector corresponding to the non-negative utility of $D$ different choices, the desired output is positive for the dimension with highest utility (i.e. the ``winner'') and zero for all others.
+More precisely, given a $D$-dimensional vector corresponding to the non-negative utility of $D$ different choices, the desired output is positive for the dimension with highest utility (i.e.~the ``winner'') and zero for all others.
 This mechanism is regularly employed as a component of cognitive models involving decision making, in which the action with the highest utility is selected to drive behaviour, and selective attention~\cite<e.g.,>{itti1998,standage2005}.
 
 A large body of literature exists examining the optimality of WTA mechanisms and their consistency with neurobiological and psychological data~\cite<e.g.,>{bogacz2006,gold2007,smith2004}.
@@ -156,7 +156,7 @@ We now provide the details of each layer, again implemented with the principles 
     }\label{fig:ia-sketch}
 \end{figure}
 
-The first layer consists of a separate integrator population (i.e. accumulator) for each state variable $x_i(t), \ 1 \leq i \leq D$.
+The first layer consists of a separate integrator population (i.e.~accumulator) for each state variable $x_i(t), \ 1 \leq i \leq D$.
 The second layer consists of independent, non-recurrent populations that receive input from the first layer in a one-to-one fashion.
 From the second layer, we decode the function $\bar{x}_i := \Theta(x_i - \vartheta)$ where $\Theta$ is the Heaviside function, and $\vartheta = 0.8$ is a fixed threshold value that determines how much evidence needs to be accumulated to produce an output.
 The Heaviside decoded output of layer 2 projects back to layer 1 to add $\bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j$ to the input of $x_i$.
@@ -264,7 +264,7 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
 
 The time required to reach a decision in the LCA network depends mostly on the size of inputs and target separation (see Fig.~\ref{fig:time}a).
 The level of noise only had a minor influence and was averaged over.
-In the IA network the strongest input is the most important factor (dashed vs. solid lines in Fig.~\ref{fig:time}b).
+In the IA network the strongest input is the most important factor (dashed vs.\ solid lines in Fig.~\ref{fig:time}b).
 Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time with a $\tau_1$ that achieves the same fraction of correct responses.
 There is also a slight influence of target separation and input noise with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
 \begin{figure*}[t]
