@@ -19,6 +19,15 @@
 \newlength{\mywidth}
 \newlength{\myheight}
 
+\makeatletter
+\DeclareRobustCommand{\rvdots}{%
+  \vbox{
+    \baselineskip4\p@\lineskiplimit\z@
+    \kern-\p@
+    \hbox{.}\hbox{.}\hbox{.}
+  }}
+\makeatother
+
 \begin{document}
 \begin{tikzpicture}[
     every path/.style={-{Latex}},
@@ -29,11 +38,11 @@
     ]
 
     \matrix [column sep=20, row sep=10] {
-        \node (rho1) {$\rho_1$}; & \node (x1) [neuron] {$x_1$}; & \node (bar-x1) 
-        [neuron] {$\bar{x}_1$}; & \node (out1) {}; \\
+        \node (rho1) {$\rho_1$}; & \node (x1) [neuron] {$x_1$}; &[20] \node 
+        (bar-x1) [neuron] {$\bar{x}_1$}; & \node (out1) {}; \\
         \node (rho2) {$\rho_2$}; & \node (x2) [neuron] {$x_2$}; & \node (bar-x2) 
         [neuron] [neuron] {$\bar{x}_2$}; & \node (out2) {}; \\
-        & \node {$\vdots$}; & \node {$\vdots$}; & \\
+        & \node {$\rvdots$}; & \node {$\rvdots$}; & \\
         \node (rhoD) {$\rho_D$}; & \node (xD) [neuron] {$x_D$}; & \node (bar-xD) 
         [neuron] {$\bar{x}_D$}; & \node (outD) {}; \\
     };
@@ -44,8 +53,11 @@
         \draw (x\i) [{Latex}-{Latex}] to  (bar-x\i);
         \draw (bar-x\i) to (out\i);
     }
-    \foreach \i/\j in {1/2, 1/D, 2/1, 2/D, D/1, D/2} {
-        \draw (bar-x\i.west) to (x\j.east);
+    \foreach \i/\j in {1/2, 1/D, 2/D} {
+        \draw (bar-x\i) [inhibit, in=20, out=200]  to (x\j);
+    }
+    \foreach \i/\j in {2/1, D/1, D/2} {
+        \draw (bar-x\i) [inhibit, in=-20, out=160]  to (x\j);
     }
 \end{tikzpicture}
 \end{document}
