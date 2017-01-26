@@ -228,7 +228,7 @@ For a small inputs with $u=0.2$ the winner will mostly not exceed the 0.15 thres
 The best performance is achieved with medium inputs with $u=0.6$.
 Higher inputs make it more likely that runner-ups will exceed the 0.15 threshold, especially with a small target separation.
 In contrast to the LCA network, the IA network manages to form a clear decision in every trial (not explicitly shown in Figure~\ref{fig:decisions}, but all data points would fall on the grey line).
-\begin{figure*}
+\begin{figure*}[t]
     \centering
     \includegraphics{figures/decisions}
     \caption{
@@ -246,11 +246,11 @@ Overall, the IA performance tends to be worse for a high input magnitude, but be
 We can greatly improve the IA performance by increasing $\tau_1$ to \SI{0.5}{\second} which slows down the integration of evidence (Fig.~\ref{fig:correct}c).
 This improves the IA performance to be above the LCA performance for high baselines, but it will also increase the decisions times of the IA network.
 For a low baseline with $u=0.2$, it makes the IA network unable to decide within the allocated time frame, but given more time it would still reach a decision.
-A further improvement to the IA network is possible by eliminating a systematic bias introduced in the second layer of the IA network.
-In the NEF the neuron gain and bias parameters are usually picked from random distributions.
-As such the layer 2 populations will become active at slightly different thresholds.
-By using identical layer 2 populations, i.e.~identical gain and bias parameters for each population, this bias can be eliminated and the IA network performs even better (Fig.~\ref{fig:correct}d).
-\begin{figure*}
+%A further improvement to the IA network is possible by eliminating a systematic bias introduced in the second layer of the IA network.
+%In the NEF the neuron gain and bias parameters are usually picked from random distributions.
+%As such the layer 2 populations will become active at slightly different thresholds.
+%By using identical layer 2 populations, i.e.~identical gain and bias parameters for each population, this bias can be eliminated and the IA network performs even better (Fig.~\ref{fig:correct}d).
+\begin{figure*}[t]
     \centering
     \includegraphics{figures/correct}
     \caption{
@@ -265,7 +265,7 @@ The level of noise only had a minor influence and was averaged over.
 In the IA network the strongest input is the most important factor (dashed vs. solid lines in Fig.~\ref{fig:time}b).
 Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time with a $\tau_1$ that achieves the same fraction of correct responses.
 There is also a slight influence of target separation and input noise with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
-\begin{figure*}
+\begin{figure*}[t]
     \centering
     \includegraphics{figures/time}
     \caption{
@@ -314,9 +314,9 @@ For the LCA network this behaviour is inherent.
 There will always be an initial rise of all state variables that receive input before the mutual inhibition grows strong enough to push them back to zero.
 In the IA network, however, this is mostly a matter of choosing an appropriate $\tau_1$.
 
-Part of the reason why the IA network produces less correct responses is the systematic bias introduced in the second layer.
-By eliminating this bias through identical ensembles the correctness of the model is increased considerably.
-However, this would require a very precise tuning of the neurons that might not be biologically plausible.
+%Part of the reason why the IA network produces less correct responses is the systematic bias introduced in the second layer.
+%By eliminating this bias through identical ensembles the correctness of the model is increased considerably.
+%However, this would require a very precise tuning of the neurons that might not be biologically plausible.
 
 We did not investigate the agreement of these mechanisms with neurobiological and behavioural data because this has been done before for different WTA networks~\cite{gold2007,smith2004} and is out of the scope of this paper.
 Also, the implementation in spiking neurons ensures a certain level of biological plausibility.
