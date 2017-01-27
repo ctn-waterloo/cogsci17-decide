@@ -88,22 +88,27 @@ We also remark that if $\beta \ne 1$ then the derivatives are no longer sorted b
 The model dynamics for the independent accumulator (IA) are given as follows:
 \begin{equation}
     \begin{split}
-        \frac{{\partial x}_i}{\partial t} = \lambda \rho_i \frac{1}{\tau_1} + \left( 
-            \bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j \right) \frac{1}{\tau_2}, \quad x_i \ge 0 ,
+        \frac{{\partial x}_i}{\partial t} = \rho_i \frac{1}{\tau_1} + \left( 
+            \bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j \right) 
+        \frac{1}{\tau_2}, \quad x_i \ge 0 ,
     \end{split}
 \end{equation}
 where $\bar{x}_i := \Theta(x_i - \vartheta)$ is defined by the Heaviside function $\Theta$ shifted by $\vartheta$.
 We now justify our choice of $\bar{\beta} = 2$ from the text. % Fixing $\lambda = 1$, $\tau_1 = \tau_2$.
 
-\subsection{Effect of $\bar{\beta} > 1 + \lambda \max_i\{\rho_i\} \frac{\tau_2}{\tau_1}$}
+\subsection{Effect of $\bar{\beta} > 1 + \max_i\{\rho_i\} 
+    \frac{\tau_2}{\tau_1}$}
 
 Suppose index $i$ is a loser.
 We know that $\bar{x}_i \le 1$, and $\sum_{j \ne i} \bar{x}_j \ge 1$, since the Heaviside is bounded above by 1, and some other $j \ne i$ has surpassed its threshold by becoming the winner.
 Thus,
 \begin{align}
-    \frac{{\partial x}_i}{\partial t} \le \lambda \max_i\{\rho_i\} \frac{1}{\tau_1} + \left( 1 - \bar{\beta} \right) \frac{1}{\tau_2} < 0 \quad \iff \quad \bar{\beta} > 1 + \lambda \max_i\{\rho_i\} \frac{\tau_2}{\tau_1} ,
+    \frac{{\partial x}_i}{\partial t} \le \max_i\{\rho_i\} \frac{1}{\tau_1} 
+    + \left( 1 - \bar{\beta} \right) \frac{1}{\tau_2} < 0 \quad \iff \quad 
+    \bar{\beta} > 1 + \max_i\{\rho_i\} \frac{\tau_2}{\tau_1} ,
 \end{align}
-which implies that it suffices to enforce the latter condition on $\bar{\beta}$ in order to ensure that all losers go to zero. 
-In the text, $\lambda = 1$, $\tau_1 = \tau_2$, and $\max_i\{\rho_i\} < 1$ $\implies \bar{\beta} = 2$ is sufficient.
+which implies that it suffices to enforce the latter condition on $\bar{\beta}$ 
+in order to ensure that all losers go to zero.  In the text, $\tau_1 = \tau_2$, 
+and $\max_i\{\rho_i\} < 1$ $\implies \bar{\beta} = 2$ is sufficient.
 
 \end{document}
