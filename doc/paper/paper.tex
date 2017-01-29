@@ -61,7 +61,7 @@ decision making; mutual inhibition; neural competition; dynamical systems
 
 Winner-take-all (WTA) networks provide a mechanism that selects the largest value among a number of possible inputs.
 More precisely, given a $D$-dimensional vector corresponding to the non-negative utility of $D$ different choices, the desired output is positive for the dimension with highest utility (i.e.~the ``winner'') and zero for all others.
-This mechanism is regularly employed as a component of cognitive models involving decision making, in which the action with the highest utility is selected to drive behaviour, and selective attention~\cite<e.g.,>{itti1998,standage2005}.
+This mechanism is regularly employed as a component of cognitive models involving decision making, in which the action with the highest utility is selected to drive behaviour, and selective attention~\cite<e.g.,>{oreilly1998,itti1998,standage2005}.
 
 A large body of literature exists examining the optimality of WTA mechanisms and their consistency with neurobiological and psychological data~\cite<e.g.,>{bogacz2006,gold2007,smith2004}.
 Here, we investigate the suitability of two different WTA mechanisms in the context of large-scale cognitive modelling.
@@ -181,7 +181,7 @@ It is important to note that $u$ does not only determine the size of the stronge
 Since all of the runner-ups have equal magnitude, this represents the most difficult scenario of the network's capability where all potential choices must be considered.
 As $s \rightarrow 0$ the problem becomes more difficult because the utilities of the choices are closer together.
 We will use $u = 1$ unless indicated otherwise, and set the number of choices to $D = 10$.
-Further, we chose noise variance increments large enough to observe the behaviour and failure as the task gets incearsingly difficult.
+Further, we chose noise variance increments large enough to observe the behaviour and failure as the task gets increasingly difficult.
 This allows us to determine which functions are performed more robustly by each network.
 In both WTA models we use 200 neurons per choice.
 In the IA network this is split into 150 neurons for each layer 1 population and 50 neurons for each layer 2 population.
@@ -232,11 +232,10 @@ In contrast to the LCA network, the IA network manages to form a clear decision 
     \centering
     \includegraphics{figures/decisions}
     \caption{
-        Fraction of trials with a clear decision for the LCA network.
+        Fraction of trials with a clear decision for the LCA network (also matches exactly the fraction of correct trials).
         Each plot shows data for a different input magnitude $u$.
         Error bars denote bootstrapped 95\% confidence intervals.
-        The grey horizontal line shows the optimum.
-        It coincides with the performance of the IA network.
+        The grey horizontal line shows the optimum and coincides with the performance of the IA network.
     }\label{fig:decisions}
 \end{figure*}
 
@@ -255,7 +254,7 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
     \centering
     \includegraphics{figures/correct}
     \caption{
-        Fraction of correct trials for the IA network.  
+        Fraction of correct trials for the IA network.
         Each plot shows data for a different combination of input magnitude $u$ and integration time constant $\tau_1$.
         Error bars denote bootstrapped 95\% confidence intervals.
         The grey horizontal line shows the optimum.
@@ -265,7 +264,7 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
 The time required to reach a decision in the LCA network depends mostly on the size of inputs and target separation (see Fig.~\ref{fig:time}a).
 The level of noise only had a minor influence and was averaged over.
 In the IA network the strongest input is the most important factor (dashed vs.\ solid lines in Fig.~\ref{fig:time}b).
-Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time with a $\tau_1$ that achieves the same fraction of correct responses.
+Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time given a value of $\tau_1$ that achieves the same fraction of correct responses.
 There is also a slight influence of target separation and input noise with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
 \begin{figure*}[t]
     \centering
@@ -295,10 +294,11 @@ The magnitude of such transient responses is reduced by adjusting $\tau_1$ to 0.
 \section{Discussion}
 We have shown that neither network performs better on all benchmarks, but rather each is better suited for different purposes.
 For instance, the LCA network can determine the correct winner more quickly and given that a conclusive decision was made, it is always picks the correct winner.
-However, under noisy conditions it may fail to produce a clear output at all, and thus not make a decision.
+However, under highly noisy conditions it may fail to produce a clear output at all, and thus not make a decision.
 This can be problematic in situations were it is better or required to make a decision even though it might not be the best choice.
 The IA network might not be able to identify the correct winner as quickly or as reliably (depending on the choice of $\tau_1$), but given enough time it will eventually arrive at a decision and produce a clear output.
-In addition, the IA network is easily extendable to dynamically control the speed of decisions by feeding in a dynamic bias to the layer 2 populations.
+This also enables it to react to small inputs.
+In addition, the IA network is easily extendable to dynamically control the speed of decisions by feeding in a dynamic bias to the layer 2 populations that effectively adjusts the $\vartheta$ threshold.
 
 Furthermore, the LCA network is especially well-suited for situations where a decision needs to be continuously adjusted.
 The prescribed dynamics essentially try to output whatever the currently largest input is, while performing some smoothing over time.
@@ -321,14 +321,16 @@ In the IA network, however, this is mostly a matter of choosing an appropriate $
 %However, this would require a very precise tuning of the neurons that might not be biologically plausible.
 
 We did not investigate the agreement of these mechanisms with neurobiological and behavioural data because this has been done before for different WTA networks~\cite{gold2007,smith2004} and is out of the scope of this paper.
-Also, the implementation in spiking neurons ensures a certain level of biological plausibility.
+The implementation in spiking neurons, however, ensures a certain level of biological plausibility.
+Also, given specific evidence for one network, we cannot exclude the possibility that the other network is not employed for different tasks or in different brain areas.
 Relatedly, it might be more plausible to distribute the representation of all state variables over a single population of neurons.
 This is directly supported by the NEF, but we chose to leave this to future work to keep the current analysis free from potential interactions of the state variables introduced by such a distributed representation.
 
-It is worth to highlight, that one can transform one model into the other with a few steps.
-By setting $\tau = \tau_1$, $k = -\tau/\tau_2$, and $\beta = \bar{\beta}\tau/\tau_2$ we obtain almost identical model equations.
-The only remaining difference is the added Heaviside non-linearity on the state variables.
-Nevertheless, the behaviour of the two models is quite distinct.
+We also did not look at at the influence of the number of dimensions $D$ in detail.
+For higher $D$, we expect less accuracy since each additional choice has a baseline chance to win due to noise.
+But apart from that, we expect the qualitative results to stay the same.
+With just two choices ($D=2$) the decision problem can get a lot easier as the sum of losing inputs is guaranteed to be below the magnitude of the winner.
+As this case is less general we did not consider it here.
 
 One critique of non-leaky accumulator models is that their ability to discriminate the largest input increases indefinitely with time~\cite{usher2001} and that there is no sensible stopping criterion.
 However, this assumes that the time to reach a decision has no cost.
@@ -338,8 +340,12 @@ But in a neural network resources are limited.
 As such the range and accuracy of values that can be represented in a neural population is bounded.
 At some point this would counterbalance any additional evidence.
 
-We also did not look at at the influence of the number of dimensions $D$ in detail, but qualitatively the results will stay the same.
-For higher $D$, we expect less accuracy since each additional choice has a baseline chance to win due to noise.
+Finally, it is worth to highlight the mathematical relatedness of the two models.
+One can transform one model into the other with a few steps.
+By setting $\tau = \tau_1$, $k = -\tau/\tau_2$, and $\beta = \bar{\beta}\tau/\tau_2$ we obtain almost identical model equations.
+The only remaining difference is the added Heaviside non-linearity on the state variables.
+Nevertheless, the behaviour of the two models is quite distinct.
+
 
 \section{Notes}
 Source code and supplementary analysis is available at \url{https://github.com/ctn-waterloo/cogsci17-decide}.
