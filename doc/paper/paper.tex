@@ -243,7 +243,7 @@ In contrast to the LCA network, the IA network manages to form a clear decision 
 Interestingly, for all clear decisions the correct winner was determined by the LCA network.
 Thus, a plot of correct trials looks identical to Figure~\ref{fig:decisions}, with slightly different error bars.
 While always reaching a clear decision, the decisions of the IA network are not always correct.
-Overall, the IA performance tends to be worse than LCA \todo{is that what you meant?} for a high input magnitude, but better for smaller inputs (Fig.~\ref{fig:correct}a,\,b).
+Overall, the IA performance tends to be worse than the LCA performance for a high input magnitude, but better for smaller inputs (Fig.~\ref{fig:correct}a,\,b).
 We can greatly improve the IA performance by increasing $\tau_1$ to \SI{0.5}{\second} which slows down the integration of evidence (Fig.~\ref{fig:correct}c).
 This improves the IA performance to be above the LCA performance for high baselines, but it will also increase the decisions times of the IA network.
 For a low baseline with $u=0.2$, it makes the IA network unable to decide within the allocated time frame, but given more time it would still reach a decision.
@@ -263,7 +263,7 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
 \end{figure*}
 
 As shown in Fig.~\ref{fig:time}a, the time required to reach a decision in the LCA network depends mostly on the size of inputs and target separation.
-The level of noise only has a minor influence and is averaged over.\todo{not sure what this 'averaged over' is refering to}
+We averaged over the different noise conditions because the noise influence on the timing was minor.
 In the IA network the largest input is the most important factor (dashed vs.\ solid lines in Fig.~\ref{fig:time}b).
 Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time given a value of $\tau_1$ that achieves the same fraction of correct responses as the LCA network.
 There is also a slight influence of target separation and input noise, with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
