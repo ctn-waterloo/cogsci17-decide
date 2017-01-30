@@ -168,16 +168,15 @@ This is summarized more precisely by the following dynamics (see~Fig.~\ref{fig:i
             \bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j \right) \frac{1}{\tau_2} , \quad x_i &\ge 0 .
     \end{split}
 \end{equation}
-Notably, this takes on the form of Equation~\ref{eqn:usher-mcclelland} after substituting $\tau = \tau_1$, $k = -\tau_1/\tau_2$, and $\beta = \bar{\beta}\tau_1/\tau_2$, with the only remaining difference being the Heaviside nonlinearity applied to the state feedback.
-In contrast to the LCA model, the Heaviside threshold $\vartheta$ is a free parameter that controls how much evidence needs to be integrated before enabling any competition between states.
-Instead of directly manipulating $\vartheta$, we opt to change $\tau_1$ instead, which has a comparable effect due to the leak-free integration.
-% should we say anything about how the thresholding population works?
+Notably, this takes the form of Equation~\ref{eqn:usher-mcclelland} after substituting $\tau = \tau_1$, $k = -\tau_1/\tau_2$, and $\beta = \bar{\beta}\tau_1/\tau_2$, with the only remaining difference being the Heaviside nonlinearity applied to the state feedback.
+Thus, in contrast to the continual competition occurring in the LCA model, the threshold $\vartheta$ is a free parameter that controls how much evidence needs to be integrated before enabling any competition between states.
+Instead of directly manipulating $\vartheta$, we opt to change $\tau_1$, which has a comparable effect due to the leak-free integration.
+\todo{Put in more implementation details? e.g., how the thresholding population works, and why certain design choices were made?}
 
 \subsection{Benchmarks}
-To test and compare the two WTA mechanisms we provide an input of $\rho_i = u - s(1 - \delta_{1i}) + \eta_i$, where $u$ is the strength of the strongest input, 
-$s > 0$ is the target separation relative to all other inputs, $\delta$ is the Kronecker delta, and $\eta_i$ is Gaussian (white) noise with standard deviation $\sigma$.
-Thus, without loss of generality, the first state variable receives the strongest input $u$ plus noise, and all other state variables receive a noisy input that is smaller by $s$.
-It is important to note that $u$ does not only determine the size of the strongest input, but also the general baseline of inputs.
+To test and compare the two WTA mechanisms we provide an input of $\rho_i = u - s(1 - \delta_{1i}) + \eta_i$, where $u$ is the strength of the largest input, $s > 0$ is the target separation relative to all other inputs, $\delta$ is the Kronecker delta, and $\eta_i$ is Gaussian (white) noise with standard deviation $\sigma$.
+Thus, without loss of generality, the first state variable receives the largest input $u$ plus noise, and all other state variables receive a noisy input that is smaller by $s$.
+It is important to note that $u$ does not only determine the size of the largest input, but also the general baseline of inputs.
 Since all of the runner-ups have equal magnitude, this represents the most difficult scenario of the network's capability where all potential choices must be considered.
 As $s \rightarrow 0$ the problem becomes more difficult because the utilities of the choices are closer together.
 We will use $u = 1$ unless indicated otherwise, and set the number of choices to $D = 10$.
@@ -209,7 +208,7 @@ First, we determine whether the model is able to form a clear decision within on
 To be counted as `clear', at least one output must remain above 0.15 across the time interval $(\SI{1}{\second}, \SI{2}{\second}]$ while all other outputs remain below this threshold. % chktex 9
 This lower bound of 0.15 was chosen to ensure that noise on a zero output is not mistaken for a non-zero output.
 Note that this metric requires that the decision does not change throughout the time interval.
-This does not take into account whether the winning output actually corresponds to the strongest input, but for some models it is more desirable to produce a clear incorrect decision than an unstable incorrect decision.
+This does not take into account whether the winning output actually corresponds to the largest input, but for some models it is more desirable to produce a clear incorrect decision than an unstable incorrect decision.
 In other situations, though, the correctness of the decision may be of higher importance.
 Thus, we consider a trial `correct' if the model forms a clear decision, and the largest output corresponds to the true largest input.
 
@@ -263,17 +262,17 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
 
 The time required to reach a decision in the LCA network depends mostly on the size of inputs and target separation (see Fig.~\ref{fig:time}a).
 The level of noise only had a minor influence and was averaged over.
-In the IA network the strongest input is the most important factor (dashed vs.\ solid lines in Fig.~\ref{fig:time}b).
+In the IA network the largest input is the most important factor (dashed vs.\ solid lines in Fig.~\ref{fig:time}b).
 Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time given a value of $\tau_1$ that achieves the same fraction of correct responses.
 There is also a slight influence of target separation and input noise with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
 \begin{figure*}[t]
     \centering
     \includegraphics{figures/time}
     \caption{
+        \todo{Can you make it so that the left / right subfigures are aligned with the left / right columns? Currently the left subfigure stretches over the center dividing line.}
         (Left) Mean decision times for the LCA network.
         Shown data is averaged across all noise levels, since noise had minimal effect on decision times.
         (Right) Mean decision times for the IA network with input magnitude $u = 0.2$ (solid) and $u = 1$ (dashed).
-        \todo{Move (dashed) and (solid) from title to legend?)}
         Error bars denote bootstrapped 95\% confidence intervals.
     }\label{fig:time}
 \end{figure*}
@@ -297,13 +296,13 @@ The magnitude of such transient responses is reduced by adjusting $\tau_1$ to 0.
 We have shown that neither network performs better on all benchmarks, but rather each is better suited for different purposes.
 For instance, the LCA network can determine the correct winner more quickly, and, given that a conclusive decision was made, it always selects the correct winner.
 However, under noisy conditions it may fail to produce a clear output at all, and thus not make a decision.
-This can be problematic for cognitive models that require the network to make a decision (even when it may be incorrect).
+This can be problematic for cognitive models that must form a clear decision (even when it may be incorrect).
 The IA network might not be able to identify the correct winner as quickly or as reliably (depending on the choice of $\tau_1$), but given enough time it will eventually arrive at a decision and produce a clear output.
 This is a direct consequence of the thresholding on the state feedback, which prevents competition from occurring until a sufficient amount of evidence has accumulated.
 This also enables the IA network to react to small inputs.
 In addition, the IA network is easily extendible to dynamically control the speed of decisions, by supplying an external bias to layer 2 to adjust the $\vartheta$ threshold.
 
-On the other hand, the LCA network is especially well-suited for situations where a decision needs to be continuously adjusted.
+The LCA network is especially well-suited for situations where a decision needs to be continuously adjusted.
 The dynamics constantly push the winning state variable to the magnitude of the largest input, while adapting to input changes along a time-scale of $\tau$.
 This makes it quick to respond to changes in the input for smaller $\tau$, but leads to randomly switching outputs due to noise.
 
@@ -314,7 +313,7 @@ This limits how quickly successive decisions can be made and reduces the ability
 However, once a decision is made, the network provides a stable output.
 
 Both models might produce a transient response that may be interpreted as a decision, which can make the detection of decisions problematic.
-This is of special relevance when incorporating the networks in larger cognitive models.
+This is of special relevance when incorporating the networks into larger cognitive models.
 For the LCA network, the transient behaviour is inherent to its design; there will always be an initial rise of all state variables (that receive input) before the mutual inhibition grows strong enough to push them back to zero.
 In the IA network, however, such transient responses may be avoided by choosing appropriate $\tau_1$ and $\vartheta$.
 
@@ -323,6 +322,7 @@ In the IA network, however, such transient responses may be avoided by choosing 
 %However, this would require a very precise tuning of the neurons that might not be biologically plausible.
 
 We did not investigate the agreement of these mechanisms with neurobiological and behavioural data because this has been done before for different WTA networks~\cite{gold2007,smith2004} and is outside the scope of this paper.
+\todo{I think if this were to become a journal article, then these are the sorts of connections that reviewers would be most interested in seeing. And so it might be worth touching more on what we could look into? For example, the distinct predictions that each model would make regarding patterns of activity during decision making tasks.}
 The implementation in spiking neurons, however, ensures a certain level of biological plausibility and more readily permits comparisons with neural data.
 Also, given specific evidence for one network, we cannot exclude the possibility that the other network is not employed for different tasks or in different brain areas.
 Relatedly, it might be more plausible to distribute the representation of all state variables over a single population of neurons.
@@ -336,12 +336,10 @@ Nevertheless, the qualitative results stay the same.
 
 One critique of non-leaky accumulator models is that their ability to discriminate the largest input increases indefinitely with time~\cite{usher2001} and that there is no sensible stopping criterion.
 However, this assumes that the time to reach a decision has no cost.
-If time-to-decision has a cost, it will at some point exceed the gain achieved from making a correct decision.
+If time-to-decision has a cost, then it will at some point exceed the gain achieved from making a correct decision.
 Furthermore, this argument assumes integration with perfect accuracy.
-But in a neural network resources are limited.
-As such the range and accuracy of values that can be represented in a neural population is bounded.
-At some point this would counterbalance any additional evidence.
-\todo{End on a more finalizing note.}
+But, with networks built using the NEF, the representation of each state variable has limited precision, and so an ideal trade-off must be found.
+\todo{End on a more finalizing note. We should try to make it clear how in the end this has advanced the field. Why is this work important, where does this leave us, etc.}
 
 \section{Notes}
 Source code and supplementary analysis is available at \url{https://github.com/ctn-waterloo/cogsci17-decide}.
