@@ -174,7 +174,7 @@ Instead of directly manipulating $\vartheta$, we opt to change $\tau_1$, which h
 \todo{Put in more implementation details? e.g., how the thresholding population works, and why certain design choices were made?}
 
 \subsection{Benchmarks}
-To test and compare the two WTA mechanisms we provide an input of $\rho_i = u - s(1 - \delta_{1i}) + \eta_i$, where $u$ is the strength of the largest input, $s > 0$ is the target separation relative to all other inputs, $\delta$ is the Kronecker delta, and $\eta_i$ is Gaussian (white) noise with standard deviation $\sigma$.
+To test and compare the two WTA mechanisms we provide an input of $\rho_i = u - s(1 - \delta_{1i}) + \eta_i$, where $u$ is the magnitude of the largest input, $s > 0$ is the target separation relative to all other inputs, $\delta$ is the Kronecker delta, and $\eta_i$ is Gaussian (white) noise with standard deviation $\sigma$.
 Thus, without loss of generality, the first state variable receives the largest input $u$ plus noise, and all other state variables receive a noisy input that is smaller by $s$.
 It is important to note that $u$ does not only determine the size of the largest input, but also the general baseline of inputs.
 Since all of the runner-ups have equal magnitude, this represents the most difficult scenario of the network's capability where all potential choices must be considered.
