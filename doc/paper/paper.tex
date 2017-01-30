@@ -57,7 +57,6 @@ Our findings suggest that while the LCA network can rapidly adapt to new winners
 \end{abstract}
 
 \section{Introduction}
-
 Winner-take-all (WTA) networks are mechanisms that select the largest value among a number of inputs.
 More precisely, given a $D$-dimensional vector corresponding to the non-negative utility of $D$ different choices, the desired output is positive for the dimension with highest utility (i.e.,~the ``winner'') and zero for all others.
 This mechanism is regularly employed as a component of cognitive models involving selective attention~\cite<e.g.,>{itti1998,standage2005} and decision making, where the action with the highest utility is selected to drive behaviour~\cite<e.g.,>{oreilly1998}.
@@ -111,7 +110,7 @@ In particular, for the exponentially decaying $h(t)$ we may apply Principle 2 to
 
 \subsection{Leaky, competing accumulator model}
 Using the principles of the NEF, we have implemented the widely-used leaky, competing accumulator (LCA) model proposed by~\citeA{usher2001}.
-The dynamics (see~Fig.~\ref{fig:usher-mcclelland}a) for each state variable $x_i(t),\ 1 \leq i \leq D$, where $D$ is the number of choices, are given by:
+The dynamics (see Fig.~\ref{fig:usher-mcclelland}a) for each state variable $x_i(t),\ 1 \leq i \leq D$, where $D$ is the number of choices, are given by:
 \begin{equation} \label{eqn:usher-mcclelland}
     \begin{split}
         \frac{{\partial x}_i}{\partial t} = \left(\rho_i - kx_i - \beta \sum_{j \neq i} x_j\right) \frac{1}{\tau}, \quad x_i &\ge 0,
@@ -158,13 +157,13 @@ We now provide the details of each layer -- again implemented using the principl
     }\label{fig:ia-sketch}
 \end{figure}
 
-The first layer consists of a separate integrator population (i.e.,~accumulator) for each state variable $x_i(t), \ 1 \leq i \leq D$.
+The first layer consists of a separate integrator population (i.e., accumulator) for each state variable $x_i(t), \ 1 \leq i \leq D$.
 The second layer consists of independent, non-recurrent populations that receive input from the first layer in a one-to-one fashion.
 From the second layer, we decode the function $\bar{x}_i := \Theta(x_i - \vartheta)$ where $\Theta$ is the Heaviside function, and $\vartheta = 0.8$ is a fixed threshold value that determines how much evidence needs to be accumulated to produce an output.
 The Heaviside decoded output of layer 2 projects back to layer 1 to add $\bar{x}_i - \bar{\beta} \sum_{j \neq i} \bar{x}_j$ to the input of $x_i$.
 Since intuitively the largest input will accumulate the fastest, once this reaches the threshold $\vartheta$ it will self-excite and inhibit all other state variables.
 Fixing $\bar{\beta} = 2$ ensures that the losing state variables will go to zero (see supplementary analysis).
-This is summarized more precisely by the following dynamics (see~Fig.~\ref{fig:indacc}b):
+This is summarized more precisely by the following dynamics (see Fig.~\ref{fig:indacc}b):
 \begin{equation}
     \begin{split}
         \frac{{\partial x}_i}{\partial t} = \rho_i \frac{1}{\tau_1} + \left( 
@@ -253,7 +252,7 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
 %A further improvement to the IA network is possible by eliminating a systematic bias introduced in the second layer of the IA network.
 %In the NEF the neuron gain and bias parameters are usually picked from random distributions.
 %As such the layer 2 populations will become active at slightly different thresholds.
-%By using identical layer 2 populations, i.e.,~identical gain and bias parameters for each population, this bias can be eliminated and the IA network performs even better (Fig.~\ref{fig:correct}d).
+%By using identical layer 2 populations, i.e., identical gain and bias parameters for each population, this bias can be eliminated and the IA network performs even better (Fig.~\ref{fig:correct}d).
 \begin{figure*}[t]
     \centering
     \includegraphics{figures/correct}
