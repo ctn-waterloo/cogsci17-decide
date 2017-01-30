@@ -91,7 +91,6 @@ Decoding weights $d_i$ are then used to approximate the represented value $\hat 
 \end{equation}
 where $h(t) = \tau_{\mathrm{s}}^{-1}\exp(t/\tau_{\mathrm{s}})$ is an exponentially decaying synaptic filter with time-constant $\tau_{\mathrm{s}}$, and $\ast$ is the convolution operator.
 The decoding weights are obtained by least-squares optimization of the error $E_x = \abs{x - \hat{x}}$.
-\todo{do you actually use absolute value?  should these be double bars?}
 For the transmission of a value from one population to another, the connection weights are given by:
 \begin{equation}
     W_{ij} = \alpha_j e_j d_i \text{.}
