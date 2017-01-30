@@ -30,7 +30,9 @@
 
 \newcommand{\todo}[1]{\textbf{\textsc{\textcolor{blue}{(TODO\@: #1)}}}}
 
-\title{A Spiking Independent Accumulator Model for Winner-Take-All}
+\title{A Spiking Independent Accumulator Model for Winner-Take-All Networks
+\todo{I put 'networks', but am not sure that's the right word, but it seems some word
+needs to go there... 'computations', 'decisions'? WTA is usually an adjective}}
 
 \author{{\large \bf Jan Gosmann (jgosmann@uwaterloo.ca)} \\
   {\large \bf Aaron R. Voelker (arvoelke@uwaterloo.ca)} \\
@@ -45,7 +47,7 @@
 
 \begin{abstract}  % 150 word limit
 Winner-take-all (WTA) mechanisms are an important component of many cognitive models.
-For example, they can be used to decide between multiple choices and to selectively direct attention.
+For example, they are often used to decide between multiple choices or to selectively direct attention.
 Here we compare two biologically plausible, spiking neural WTA mechanisms. 
 We first provide a novel spiking implementation of the well-known leaky, competing accumulator (LCA) model, by mapping the dynamics onto a population-level representation.
 We then propose a two-layer spiking independent accumulator (IA) model, and compare its performance against the LCA network on a variety of WTA benchmarks.
@@ -56,13 +58,13 @@ Our findings suggest that while the LCA network can rapidly adapt to new winners
 
 \section{Introduction}
 
-Winner-take-all (WTA) networks are mechanisms that select the largest value among a number of possible inputs.
+Winner-take-all (WTA) networks are mechanisms that select the largest value among a number of inputs.
 More precisely, given a $D$-dimensional vector corresponding to the non-negative utility of $D$ different choices, the desired output is positive for the dimension with highest utility (i.e.,~the ``winner'') and zero for all others.
-This mechanism is regularly employed as a component of cognitive models involving selective attention~\cite<e.g.,>{itti1998,standage2005} and decision making -- in which the action with the highest utility is selected to drive behaviour~\cite<e.g.,>{oreilly1998}.
+This mechanism is regularly employed as a component of cognitive models involving selective attention~\cite<e.g.,>{itti1998,standage2005} and decision making, where the action with the highest utility is selected to drive behaviour~\cite<e.g.,>{oreilly1998}.
 
 A large body of literature examines the optimality of WTA mechanisms and their consistency with neurobiological and psychological data~\cite<e.g.,>{bogacz2006,gold2007,smith2004}.
-Here, we investigate the suitability of two different WTA mechanisms in the context of large-scale cognitive modelling.
-In particular, we map each mechanism onto a biologically plausible network of spiking neurons, and then compare them using a set of functional benchmarks that are normative in nature.
+Here, we investigate the suitability of two different WTA mechanisms in the context of neurally plausible cognitive modelling.
+In particular, we map each mechanism onto a network of spiking neurons, and then compare them using a set of functional benchmarks that are normative in nature.
 The first mechanism we consider is an implementation of the \emph{leaky, competing accumulator} (LCA) model from~\citeA{usher2001}.
 The LCA model and variants have been widely used, for example in versions of the Temporal Context Model~\cite{sederberg2008}, and in work on the Remote Associates Test models~\cite<e.g.,>{kajic2017}.
 The second mechanism we consider is the \emph{independent accumulator} (IA) model that we propose here, which involves a secondary thresholding layer that is recurrently connected to a primary integrating layer.
@@ -73,7 +75,7 @@ In the remainder of the paper, we provide a short introduction to the NEF, descr
 \section{Methods}
 
 \subsection{The Neural Engineering Framework}
-The Neural Engineering Framework~\cite<NEF;>{eliasmith2003} is a method of mapping a cognitive model, described using mathematical equations, onto a spiking neural network.
+The Neural Engineering Framework~\cite<NEF;>{eliasmith2003} is a method for mapping a cognitive model, described using mathematical equations, onto a spiking neural network.
 We now describe the aspects of this framework that are relevant to this work, by summarizing its three principles: \emph{representation}, \emph{transformation}, and \emph{dynamics}.
 
 \subsubsection{Principle 1: Representation}
@@ -90,6 +92,7 @@ Decoding weights $d_i$ are then used to approximate the represented value $\hat 
 \end{equation}
 where $h(t) = \tau_{\mathrm{s}}^{-1}\exp(t/\tau_{\mathrm{s}})$ is an exponentially decaying synaptic filter with time-constant $\tau_{\mathrm{s}}$, and $\ast$ is the convolution operator.
 The decoding weights are obtained by least-squares optimization of the error $E_x = \abs{x - \hat{x}}$.
+\todo{do you actually use absolute value?  should these be double bars?}
 For the transmission of a value from one population to another, the connection weights are given by:
 \begin{equation}
     W_{ij} = \alpha_j e_j d_i \text{.}
@@ -176,12 +179,12 @@ Instead of directly manipulating $\vartheta$, we opt to change $\tau_1$, which h
 \subsection{Benchmarks}
 To test and compare the two WTA mechanisms we provide an input of $\rho_i = u - s(1 - \delta_{1i}) + \eta_i$, where $u$ is the magnitude of the largest input, $s > 0$ is the target separation relative to all other inputs, $\delta$ is the Kronecker delta, and $\eta_i$ is Gaussian (white) noise with standard deviation $\sigma$.
 Thus, without loss of generality, the first state variable receives the largest input $u$ plus noise, and all other state variables receive a noisy input that is smaller by $s$.
-It is important to note that $u$ does not only determine the size of the largest input, but also the general baseline of inputs.
-Since all of the runner-ups have equal magnitude, this represents the most difficult scenario of the network's capability where all potential choices must be considered.
-As $s \rightarrow 0$ the problem becomes more difficult because the utilities of the choices are closer together.
-We will use $u = 1$ unless indicated otherwise, and set the number of choices to $D = 10$.
-Further, we chose noise variance increments large enough to observe the behaviour and failure as the task gets increasingly difficult.
-This allows us to determine which functions are performed more robustly by each network.
+It is important to note that $u$ not only determines the size of the largest input, but also the general baseline of inputs.
+Since all of the runner-ups have equal magnitude, this represents the most difficult scenario for the networks, where all potential choices must be considered.
+As $s \rightarrow 0$ the problem also becomes more difficult because the utilities of the choices are closer together.
+We use $u = 1$ unless indicated otherwise, and set the number of choices to $D = 10$.
+Further, we increment the noise variance to highlight successes and failures as the task gets increasingly difficult with more noise.
+This allows us to determine which functions are performed robustly by each network.
 In both WTA models we use 200 neurons per choice.
 In the IA network this is split into 150 neurons for each layer 1 population and 50 neurons for each layer 2 population.
 All remaining network parameters are summarized in Table~\ref{tbl:params}.
@@ -208,9 +211,11 @@ First, we determine whether the model is able to form a clear decision within on
 To be counted as `clear', at least one output must remain above 0.15 across the time interval $(\SI{1}{\second}, \SI{2}{\second}]$ while all other outputs remain below this threshold. % chktex 9
 This lower bound of 0.15 was chosen to ensure that noise on a zero output is not mistaken for a non-zero output.
 Note that this metric requires that the decision does not change throughout the time interval.
-This does not take into account whether the winning output actually corresponds to the largest input, but for some models it is more desirable to produce a clear incorrect decision than an unstable incorrect decision.
+This does not take into account whether the winning output actually corresponds to the largest input. 
+However, for some models it is more desirable to produce a clear incorrect decision than an unstable incorrect decision.
 In other situations, though, the correctness of the decision may be of higher importance.
-Thus, we consider a trial `correct' if the model forms a clear decision, and the largest output corresponds to the true largest input.
+Thus, we consider a trial `correct' if the model forms a clear decision, and the largest output corresponds to the true largest input.  
+Measurement of correct trials forms our second benchmark.
 
 We use two additional benchmarks on the set of all trials with a clear decision.
 First, it is important to consider the speed at which the network can make decisions.
@@ -226,7 +231,7 @@ Also, the magnitude of the inputs has an important influence.
 For a small inputs with $u=0.2$ the winner will mostly not exceed the 0.15 threshold with noise present.
 The best performance is achieved with medium inputs with $u=0.6$.
 Higher inputs make it more likely that runner-ups will exceed the 0.15 threshold, especially with a small target separation.
-In contrast to the LCA network, the IA network manages to form a clear decision in every trial (not explicitly shown in Figure~\ref{fig:decisions}, but all data points would fall on the grey line).
+In contrast to the LCA network, the IA network manages to form a clear decision in every trial (not explicitly shown in Figure~\ref{fig:decisions}, but all data points fall on the grey line).
 \begin{figure*}[t]
     \centering
     \includegraphics{figures/decisions}
@@ -238,10 +243,10 @@ In contrast to the LCA network, the IA network manages to form a clear decision 
     }\label{fig:decisions}
 \end{figure*}
 
-Interestingly, for all successful decisions the correct winner was determined by the LCA network.
-Thus, a plot of correct trials looks virtually identical to Figure~\ref{fig:decisions}.
-While always reaching a decision, the decisions of the IA network are not always correct.
-Overall, the IA performance tends to be worse for a high input magnitude, but better for smaller inputs (Fig.~\ref{fig:correct}a,\,b).
+Interestingly, for all clear decisions the correct winner was determined by the LCA network.
+Thus, a plot of correct trials looks identical to Figure~\ref{fig:decisions}, with slightly different error bars.
+While always reaching a clear decision, the decisions of the IA network are not always correct.
+Overall, the IA performance tends to be worse than LCA \todo{is that what you meant?} for a high input magnitude, but better for smaller inputs (Fig.~\ref{fig:correct}a,\,b).
 We can greatly improve the IA performance by increasing $\tau_1$ to \SI{0.5}{\second} which slows down the integration of evidence (Fig.~\ref{fig:correct}c).
 This improves the IA performance to be above the LCA performance for high baselines, but it will also increase the decisions times of the IA network.
 For a low baseline with $u=0.2$, it makes the IA network unable to decide within the allocated time frame, but given more time it would still reach a decision.
@@ -260,11 +265,11 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
     }\label{fig:correct}
 \end{figure*}
 
-The time required to reach a decision in the LCA network depends mostly on the size of inputs and target separation (see Fig.~\ref{fig:time}a).
-The level of noise only had a minor influence and was averaged over.
+As shown in Fig.~\ref{fig:time}a, the time required to reach a decision in the LCA network depends mostly on the size of inputs and target separation.
+The level of noise only has a minor influence and is averaged over.\todo{not sure what this 'averaged over' is refering to}
 In the IA network the largest input is the most important factor (dashed vs.\ solid lines in Fig.~\ref{fig:time}b).
-Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time given a value of $\tau_1$ that achieves the same fraction of correct responses.
-There is also a slight influence of target separation and input noise with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
+Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time given a value of $\tau_1$ that achieves the same fraction of correct responses as the LCA network.
+There is also a slight influence of target separation and input noise, with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
 \begin{figure*}[t]
     \centering
     \includegraphics{figures/time}
@@ -278,10 +283,10 @@ There is also a slight influence of target separation and input noise with an in
 \end{figure*}
 
 
-Finally, looking at the transient responses both models might produce outputs of losing choices.
+Finally, looking at the transient responses indicates that both models might produce outputs of losing choices.
 For the LCA network the magnitude of the transient response mainly increases with the amount of noise (Fig.~\ref{fig:transient}a).
 For the IA network, transient outputs are smaller in noisy conditions, but can be higher than for the LCA network in less noisy conditions with small target separations.
-The magnitude of such transient responses is reduced by adjusting $\tau_1$ to 0.5.
+The magnitude of such transient responses is reduced by adjusting $\tau_1$ to 0.5, at the cost of a slower decision.
 \begin{figure*}
     \centering
     \includegraphics{figures/transient}
@@ -300,7 +305,7 @@ This can be problematic for cognitive models that must form a clear decision (ev
 The IA network might not be able to identify the correct winner as quickly or as reliably (depending on the choice of $\tau_1$), but given enough time it will eventually arrive at a decision and produce a clear output.
 This is a direct consequence of the thresholding on the state feedback, which prevents competition from occurring until a sufficient amount of evidence has accumulated.
 This also enables the IA network to react to small inputs.
-In addition, the IA network is easily extendible to dynamically control the speed of decisions, by supplying an external bias to layer 2 to adjust the $\vartheta$ threshold.
+In addition, the IA network is easily extendible to allow dynamic control the speed of decisions, by supplying an external bias to layer 2 to adjust the $\vartheta$ threshold.
 
 The LCA network is especially well-suited for situations where a decision needs to be continuously adjusted.
 The dynamics constantly push the winning state variable to the magnitude of the largest input, while adapting to input changes along a time-scale of $\tau$.
@@ -321,16 +326,16 @@ In the IA network, however, such transient responses may be avoided by choosing 
 %By eliminating this bias through identical ensembles the correctness of the model is increased considerably.
 %However, this would require a very precise tuning of the neurons that might not be biologically plausible.
 
-We did not investigate the agreement of these mechanisms with neurobiological and behavioural data because this has been done before for different WTA networks~\cite{gold2007,smith2004} and is outside the scope of this paper.
+We have not yet investigated the agreement of these mechanisms with neurobiological and behavioural data, although this has been done before for other WTA networks~\cite{gold2007,smith2004}.
 \todo{I think if this were to become a journal article, then these are the sorts of connections that reviewers would be most interested in seeing. And so it might be worth touching more on what we could look into? For example, the distinct predictions that each model would make regarding patterns of activity during decision making tasks.}
-The implementation in spiking neurons, however, ensures a certain level of biological plausibility and more readily permits comparisons with neural data.
-Also, given specific evidence for one network, we cannot exclude the possibility that the other network is not employed for different tasks or in different brain areas.
+The implementation in spiking neurons, however, provides some basic biological plausibility and more readily permits comparisons with neural data.
+Also, given specific evidence for one network does not exclude the possibility that the other network is employed for different tasks or in different brain areas.
 Relatedly, it might be more plausible to distribute the representation of all state variables over a single population of neurons.
 This is directly supported by the NEF, but we chose to leave this to future work to keep the current analysis free from potential interactions of the state variables introduced by such a distributed representation.
 
 We also did not look at at the influence of the number of dimensions $D$ in detail.
 For higher $D$, we see reduced accuracy since each additional choice has a baseline chance to win due to noise.
-Nevertheless, the qualitative results stay the same.
+Nevertheless, the qualitative results are expected to stay the same.
 % With the specific case of only two choices ($D=2$) the decision problem becomes fundamentally easier, since the sum of losing inputs is guaranteed to be below the magnitude of the winner.
 % As this case is less general we did not consider it here.
 
@@ -339,7 +344,7 @@ However, this assumes that the time to reach a decision has no cost.
 If time-to-decision has a cost, then it will at some point exceed the gain achieved from making a correct decision.
 Furthermore, this argument assumes integration with perfect accuracy.
 But, with networks built using the NEF, the representation of each state variable has limited precision, and so an ideal trade-off must be found.
-\todo{End on a more finalizing note. We should try to make it clear how in the end this has advanced the field. Why is this work important, where does this leave us, etc.}
+\todo{End on a more finalizing note. We should try to make it clear how in the end this has advanced the field. Why is this work important, where does this leave us, etc. ce: i agree with this suggestion.}
 
 \section{Notes}
 Source code and supplementary analysis is available at \url{https://github.com/ctn-waterloo/cogsci17-decide}.
