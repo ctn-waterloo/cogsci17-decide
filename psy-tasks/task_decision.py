@@ -18,7 +18,7 @@ pspace = (
     Param(seed=range(50))
 )
 
-min_items = 1
+min_items = 20
 max_jobs = None
 
 
