@@ -340,7 +340,13 @@ However, this assumes that the time to reach a decision has no cost.
 If time-to-decision has a cost, then it will at some point exceed the gain achieved from making a correct decision.
 Furthermore, this argument assumes integration with perfect accuracy.
 But, with networks built using the NEF, the representation of each state variable has limited precision, and so an ideal trade-off must be found.
-\todo{End on a more finalizing note. We should try to make it clear how in the end this has advanced the field. Why is this work important, where does this leave us, etc. ce: i agree with this suggestion.}
+
+To conclude, we investigated two spiking neural networks computing a winner-take-all function based on the leaky, competing accumulator model and a novel two-layer independent accumulator model.
+While both perform the same basic tasks, they fail on it in different ways as the task becomes more difficult with increased noise or less separation among the choices.
+From a modelling perspective, this makes each network more useful in different situations.
+The LCA model is better for continuous updating of decisions, whereas the IA network is better suited for more discrete decisions in the presence of noise.
+It is left to future work to investigate whether such two distinct mechanisms can be identified from either behavioural or neurophysiological data.
+
 
 \section{Notes}
 Source code and supplementary analysis is available at \url{https://github.com/ctn-waterloo/cogsci17-decide}.
