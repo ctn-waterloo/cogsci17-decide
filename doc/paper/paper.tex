@@ -323,9 +323,11 @@ In the IA network, however, such transient responses may be avoided by choosing 
 %However, this would require a very precise tuning of the neurons that might not be biologically plausible.
 
 We have not yet investigated the agreement of these mechanisms with neurobiological and behavioural data, although this has been done before for other WTA networks~\cite{gold2007,smith2004}.
-\todo{I think if this were to become a journal article, then these are the sorts of connections that reviewers would be most interested in seeing. And so it might be worth touching more on what we could look into? For example, the distinct predictions that each model would make regarding patterns of activity during decision making tasks.}
 The implementation in spiking neurons, however, provides some basic biological plausibility and more readily permits comparisons with neural data.
-Also, given specific evidence for one network does not exclude the possibility that the other network is employed for different tasks or in different brain areas.
+In particular, the LCA networks predicts firing rates proportional to the input strength, while the IA network predicts that firing rates will rise up to a threshold for neurons in the first neurons and that neurons in the second layer will not become active before reaching this threshold.
+With regard to behavioural data, different effects for decision times are predicted as the number of choices increases:
+for the LCA network decisions get slower due to the mutual interaction, but for the IA network decisions will take less time because only a single accumulator needs to exceed the threshold.
+Nevertheless, given specific evidence for one network does not exclude the possibility that the other network is employed for different tasks or in different brain areas.
 Relatedly, it might be more plausible to distribute the representation of all state variables over a single population of neurons.
 This is directly supported by the NEF, but we chose to leave this to future work to keep the current analysis free from potential interactions of the state variables introduced by such a distributed representation.
 
