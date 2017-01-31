@@ -168,7 +168,6 @@ This is summarized more precisely by the following dynamics (see Fig.~\ref{fig:i
 Notably, this takes the form of Equation~\ref{eqn:usher-mcclelland} after substituting $\tau = \tau_1$, $k = -\tau_1/\tau_2$, and $\beta = \bar{\beta}\tau_1/\tau_2$, with the only remaining difference being the Heaviside nonlinearity applied to the state feedback.
 Thus, in contrast to the continual competition occurring in the LCA model, the threshold $\vartheta$ is a free parameter that controls how much evidence needs to be integrated before enabling any competition between states.
 Instead of directly manipulating $\vartheta$, we opt to change $\tau_1$, which has a comparable effect due to the leak-free integration.
-\todo{Put in more implementation details? e.g., how the thresholding population works, and why certain design choices were made?}
 
 \subsection{Benchmarks}
 To test and compare the two WTA mechanisms we provide an input of $\rho_i = u - s(1 - \delta_{1i}) + \eta_i$, where $u$ is the magnitude of the largest input, $s > 0$ is the target separation relative to all other inputs, $\delta$ is the Kronecker delta, and $\eta_i$ is Gaussian (white) noise with standard deviation $\sigma$.
