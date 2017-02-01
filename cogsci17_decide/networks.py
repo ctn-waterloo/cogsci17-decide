@@ -2,7 +2,7 @@ import nengo
 import numpy as np
 
 
-def UsherMcClelland(d, n_neurons, dt):
+def LCA(d, n_neurons, dt):
     k = 1.
     beta = 1.
     tau_model = 0.1
@@ -35,7 +35,7 @@ def UsherMcClelland(d, n_neurons, dt):
     return net
 
 
-def DriftDiffusion(d, n_neurons, dt, share_thresholding_intercepts=False):
+def IA(d, n_neurons, dt, share_thresholding_intercepts=False):
     bar_beta = 2.  # should be >= 1 + max_input * tau2 / tau1
     tau_model1 = 0.1
     tau_model2 = 0.1

@@ -7,7 +7,7 @@ import cogsci17_decide.networks
 
 class DecisionTrial(pytry.NengoTrial):
     def params(self):
-        self.param("network under test", network='UsherMcClelland')
+        self.param("network under test", network='LCA')
         self.param("# choices", d=10)
         self.param("# neurons per choice", N=200)
 

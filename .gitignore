@@ -2,6 +2,7 @@ data
 psy-work
 
 .DS_Store
+.ropeproject
 
 .doit.db
 .ipynb_checkpoints

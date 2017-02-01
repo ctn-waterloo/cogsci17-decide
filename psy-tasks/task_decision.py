@@ -5,10 +5,10 @@ from cogsci17_decide.trial import DecisionTrial
 pspace = (
     (
         Param(
-            network=['UsherMcClelland'],
+            network=['LCA'],
             scale=[1.],
             share_thresholding_intercepts=[False]) +
-        Param(network=['DriftDiffusion']) *
+        Param(network=['IA']) *
         Param(share_thresholding_intercepts=[False, True]) *
         Param(scale=[0.2, 1.])
     ) *
