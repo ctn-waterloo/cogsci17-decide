@@ -27,6 +27,7 @@
 \usepackage{siunitx}
 \usepackage{apacite}
 \usepackage{xcolor}  % for \textcolor
+\usepackage{flushend}  % balance final column height
 
 \newcommand{\todo}[1]{\textbf{\textsc{\textcolor{blue}{(TODO\@: #1)}}}}
 
@@ -321,16 +322,17 @@ In the IA network, however, such transient responses may be avoided by choosing 
 
 We have not yet investigated the agreement of these mechanisms with neurobiological and behavioural data, although this has been done before for other WTA networks~\cite{gold2007,smith2004}.
 The implementation in spiking neurons, however, provides some basic biological plausibility and more readily permits comparisons with neural data.
-In particular, the LCA networks predicts firing rates proportional to the input strength, while the IA network predicts that firing rates will rise up to a threshold for neurons in the first neurons and that neurons in the second layer will not become active before reaching this threshold.
+In particular, the IA network predicts that the firing rates for neurons in the first layer will rise up to a threshold, and that neurons in the second layer will not become active or inhibit the first layer until reaching this threshold.
+In contrast, the LCA network predicts that the firing of any neurons will proportionately inhibit all other neurons that do not represent the same state.
 With regard to behavioural data, different effects for decision times are predicted as the number of choices increases:
-for the LCA network decisions get slower due to the mutual interaction, but for the IA network decisions will take less time because only a single accumulator needs to exceed the threshold.
-Nevertheless, given specific evidence for one network does not exclude the possibility that the other network is employed for different tasks or in different brain areas.
+for the LCA network decisions become slower due to the mutual interaction, but for the IA network decisions will take less time because only a single accumulator needs to exceed the threshold.
+Nevertheless, evidence for one network does not exclude the possibility that the other network is employed for different tasks or by different brain areas.
 Relatedly, it might be more plausible to distribute the representation of all state variables over a single population of neurons.
 This is directly supported by the NEF, but we chose to leave this to future work to keep the current analysis free from potential interactions of the state variables introduced by such a distributed representation.
 
 We also did not look at at the influence of the number of dimensions $D$ in detail.
-For higher $D$, we see reduced accuracy since each additional choice has a baseline chance to win due to noise.
-Nevertheless, the qualitative results are expected to stay the same.
+For higher $D$, we see reduced accuracy overall since each additional choice has a baseline chance to win due to noise.
+Nevertheless, the results that we discuss here are qualitatively similar.
 % With the specific case of only two choices ($D=2$) the decision problem becomes fundamentally easier, since the sum of losing inputs is guaranteed to be below the magnitude of the winner.
 % As this case is less general we did not consider it here.
 
@@ -341,11 +343,10 @@ Furthermore, this argument assumes integration with perfect accuracy.
 But, with networks built using the NEF, the representation of each state variable has limited precision, and so an ideal trade-off must be found.
 
 To conclude, we investigated two spiking neural networks computing a winner-take-all function based on the leaky, competing accumulator model and a novel two-layer independent accumulator model.
-While both perform the same basic tasks, they fail on it in different ways as the task becomes more difficult with increased noise or less separation among the choices.
-From a modelling perspective, this makes each network more useful in different situations.
+While both perform the same basic tasks, they fail in different ways as each task scales in difficulty via increased noise or less separation between choices.
+From a modelling perspective, this makes each network more useful for different situations.
 The LCA model is better for continuous updating of decisions, whereas the IA network is better suited for more discrete decisions in the presence of noise.
-It is left to future work to investigate whether such two distinct mechanisms can be identified from either behavioural or neurophysiological data.
-
+It is left to future work to investigate whether these two distinct mechanisms can be identified from either behavioural or neurophysiological data.
 
 \section{Notes}
 Source code and supplementary analysis is available at \url{https://github.com/ctn-waterloo/cogsci17-decide}.
