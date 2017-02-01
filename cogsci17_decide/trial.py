@@ -28,15 +28,16 @@ class DecisionTrial(pytry.NengoTrial):
 
             stimulus = p.baseline * np.ones(p.d)
             stimulus[1:] -= p.target_sep
-            stimulus_node = nengo.Node(stimulus)
+            stimulus_node = nengo.Node(stimulus, label="Input")
             nengo.Connection(stimulus_node, decide.input, synapse=None,
                              transform=p.scale)
 
             if p.noise > 0.:
                 noise_node = nengo.Node(nengo.processes.WhiteNoise(
-                    nengo.dists.Gaussian(.0, p.noise)), size_out=p.d)
+                    nengo.dists.Gaussian(.0, p.noise)), size_out=p.d,
+                    label="Noise")
             else:
-                noise_node = nengo.Node(np.zeros(p.d))
+                noise_node = nengo.Node(np.zeros(p.d), label="Noise")
             nengo.Connection(noise_node, decide.input, synapse=None,
                              transform=p.scale)
 

@@ -15,13 +15,13 @@ def LCA(d, n_neurons, dt):
     B = 1. / tau_model
     A = (-k * I - beta * inhibit) / tau_model
 
-    with nengo.Network() as net:
+    with nengo.Network(label="LCA") as net:
         net.input = nengo.Node(size_in=d)
         x = nengo.networks.EnsembleArray(
             n_neurons, d,
             eval_points=nengo.dists.Uniform(0., 1.),
             intercepts=nengo.dists.Uniform(0., 1.),
-            encoders=nengo.dists.Choice([[1.]]))
+            encoders=nengo.dists.Choice([[1.]]), label="state")
         nengo.Connection(x.output, x.input, transform=tau_actual * A + I,
                          synapse=tau_actual)
 
@@ -58,13 +58,13 @@ def IA(d, n_neurons, dt, share_thresholding_intercepts=False):
     assert n_neurons_x > 0
     threshold = 0.8
 
-    with nengo.Network() as net:
+    with nengo.Network(label="IA") as net:
         net.input = nengo.Node(size_in=d)
         x = nengo.networks.EnsembleArray(
             n_neurons_x, d,
             eval_points=nengo.dists.Uniform(0., 1.),
             intercepts=nengo.dists.Uniform(0., 1.),
-            encoders=nengo.dists.Choice([[1.]]))
+            encoders=nengo.dists.Choice([[1.]]), label="Layer 1")
         net.x = x
         nengo.Connection(x.output, x.input, transform=tau_actual * A1 + I,
                          synapse=tau_actual)
@@ -75,14 +75,15 @@ def IA(d, n_neurons, dt, share_thresholding_intercepts=False):
             synapse=tau_actual)
 
         with nengo.presets.ThresholdingEnsembles(0.):
-            thresholding = nengo.networks.EnsembleArray(n_neurons_threshold, d)
+            thresholding = nengo.networks.EnsembleArray(
+                n_neurons_threshold, d, label="Layer 2")
             if share_thresholding_intercepts:
                 for e in thresholding.ensembles:
                     e.intercepts = nengo.dists.Exponential(
                         0.15, 0., 1.).sample(n_neurons_threshold)
             net.output = thresholding.add_output('heaviside', lambda x: x > 0.)
 
-        bias = nengo.Node(1.)
+        bias = nengo.Node(1., label="Bias")
 
         nengo.Connection(x.output, thresholding.input, synapse=0.005)
         nengo.Connection(
