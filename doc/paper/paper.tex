@@ -298,7 +298,7 @@ This can be problematic for cognitive models that must form a clear decision (ev
 The IA network might not be able to identify the correct winner as quickly or as reliably (depending on the choice of $\tau_1$), but given enough time it will eventually arrive at a decision and produce a clear output.
 This is a direct consequence of the thresholding on the state feedback, which prevents competition from occurring until a sufficient amount of evidence has accumulated.
 This also enables the IA network to react to small inputs.
-In addition, the IA network is easily extendible to allow dynamic control the speed of decisions, by supplying an external bias to layer 2 to adjust the $\vartheta$ threshold.
+In addition, the IA network is easily extendible to allow dynamic control of the decision speed, by supplying an external bias to layer 2 to adjust the $\vartheta$ threshold.
 
 The LCA network is especially well-suited for situations where a decision needs to be continuously adjusted.
 The dynamics constantly push the winning state variable to the magnitude of the largest input, while adapting to input changes along a time-scale of $\tau$.
