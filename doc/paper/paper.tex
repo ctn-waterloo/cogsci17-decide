@@ -311,8 +311,7 @@ After selecting a winner, the model's decision will persist due to self-excitati
 Thus, after making a decision, it is necessary to reset the model by inhibiting the winning accumulator.
 This limits how quickly successive decisions can be made and reduces the ability to react to changing inputs.
 However, once a decision is made, the network provides a stable output.
-As an example, we intend to use the IA network in a free recall memory model where a clear response needs to be selected.
-A non-correct response in this case might still be a valid response in the context of this task and could be better than no response at all.
+As an example, we intend to use the IA network in a free recall memory model where a clear selection of successive responses needs to be made, but correctly identifying the single item remembered most strongly is not required.
 
 Both models might produce a transient response that may be interpreted as a decision, which can make the detection of decisions problematic.
 This is of special relevance when incorporating the networks into larger cognitive models.
