@@ -127,9 +127,9 @@ In effect, heterogeneous spike trains are weighted by optimal decoding weights t
 This allows us to attain greater biological realism without altering the dynamics prescribed by Equation~\ref{eqn:usher-mcclelland}.
 \begin{figure}[t]
     \centering
-    \includegraphics{figures/lca}\\
+    \includegraphics[scale=0.9]{figures/lca}\\
     \vspace*{.3cm}
-    \includegraphics{figures/ia}
+    \includegraphics[scale=0.9]{figures/ia}
     \caption{
         Example time course of the state variables in the LCA (top) and IA (bottom) networks with three choices ($D~=~3$).
         The vector of inputs is $\left[ 0.8, 0.7, 0.6 \right]$.
@@ -143,7 +143,7 @@ To enable a form of competition, we add a second thresholding layer that  projec
 We now provide the details of each layer~-- again implemented using the principles of the NEF\@.
 \begin{figure}
     \centering
-    \includegraphics{figures/ia-sketch}
+    \includegraphics[scale=0.9]{figures/ia-sketch}
     \caption{
         Independent accumulator (IA) network.
         Neural populations are denoted by circles labelled with their represented state variable.
@@ -229,7 +229,7 @@ Higher inputs make it more likely that runner-ups will exceed the 0.15 threshold
 In contrast to the LCA network, the IA network manages to form a clear decision in every trial (not explicitly shown in Figure~\ref{fig:decisions}, but all data points fall on the grey line).
 \begin{figure*}[t]
     \centering
-    \includegraphics{figures/decisions}
+    \includegraphics[scale=0.9]{figures/decisions}
     \caption{
         Fraction of trials with a clear decision for the LCA network (which also exactly matches the fraction of correct trials).
         Each plot shows data for a different input magnitude $u$.
@@ -251,7 +251,7 @@ For a low baseline with $u=0.2$, it makes the IA network unable to decide within
 %By using identical layer 2 populations, i.e., identical gain and bias parameters for each population, this bias can be eliminated and the IA network performs even better (Fig.~\ref{fig:correct}d).
 \begin{figure*}[t]
     \centering
-    \includegraphics{figures/correct}
+    \includegraphics[scale=0.9]{figures/correct}
     \caption{
         Fraction of correct trials for the IA network.
         Each plot shows data for a different combination of input magnitude $u$ and integration time-constant $\tau_1$.
@@ -266,9 +266,9 @@ In the IA network the largest input is the most important factor (dashed vs.\ so
 Depending on this magnitude, the network can either be faster or slower than the LCA network, but it will need more time given a value of $\tau_1$ that achieves the same fraction of correct responses as the LCA network.
 There is also a slight influence of target separation and input noise, with an interaction of these two parameters (solid lines in Fig.~\ref{fig:time}).
 \begin{figure*}[t]
-    \includegraphics{figures/time1}
+    \includegraphics[scale=0.9]{figures/time1}
     \hfill
-    \includegraphics{figures/time2}
+    \includegraphics[scale=0.9]{figures/time2}
     \caption{
         (Left) Mean decision times for the LCA network.
         Shown data is averaged across all noise levels, since noise had minimal effect on decision times.
@@ -284,7 +284,7 @@ For the IA network, transient outputs are smaller in noisy conditions, but can b
 The magnitude of such transient responses is reduced by adjusting $\tau_1$ to 0.5, at the cost of a slower decision.
 \begin{figure*}
     \centering
-    \includegraphics{figures/transient}
+    \includegraphics[scale=0.9]{figures/transient}
     \caption{
         Transient response (highest output of losing choices) for the LCA and IA network.
         Error bars denote bootstrapped 95\% confidence intervals.
@@ -317,7 +317,8 @@ Both models might produce a transient response that may be interpreted as a deci
 This is of special relevance when incorporating the networks into larger cognitive models.
 For the LCA network, the transient behaviour is inherent to its design; there will always be an initial rise of all state variables (that receive input) before the mutual inhibition grows strong enough to push them back to zero.
 In the IA network, however, such transient responses may be avoided by choosing appropriate $\tau_1$ and $\vartheta$.
-It should be noted that other recurrently connected readout mechanisms with pooled inhibition have been proposed for at least the two choice case~\cite<e.g.>{lo2006} that produce outputs somewhat comparable to the IA network.
+It should be noted that other recurrently connected readout mechanisms have been proposed for the two choice case that produce bursting outputs somewhat comparable to the IA network~\cite{lo2006}.
+However, the evidence integration uses competition by means of pooled inhibition makes it more similar to the LCA than the IA network and the behaviour under highly noisy conditions is unknown.
 
 %Part of the reason why the IA network produces less correct responses is the systematic bias introduced in the second layer.
 %By eliminating this bias through identical ensembles the correctness of the model is increased considerably.
@@ -327,6 +328,7 @@ It should be noted that other recurrently connected readout mechanisms with pool
 We have not yet investigated the agreement of these mechanisms with neurobiological and behavioural data, although this has been done before for other WTA networks~\cite{gold2007,smith2004}.
 The implementation in spiking neurons, however, provides some basic biological plausibility and more readily permits comparisons with neural data.
 In particular, the IA network predicts that the firing rates for neurons in the first layer will rise up to a threshold, and that neurons in the second layer will not become active or inhibit the first layer until reaching this threshold.
+Neurons in the macaque lateral intraparietal area give a similar step response~\cite{latimer2015}.
 In contrast, the LCA network predicts that the firing of any neurons will proportionately inhibit all other neurons that do not represent the same state.
 With regard to behavioural data, different effects for decision times are predicted as the number of choices increases:
 for the LCA network decisions become slower due to the mutual interaction, but for the IA network decisions will take less time because only a single accumulator needs to exceed the threshold.
