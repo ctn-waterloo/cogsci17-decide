@@ -1,8 +1,7 @@
 \documentclass{standalone}
 
-\usepackage{bm}
-\usepackage{fontspec}
-\usepackage{pslatex}
+\usepackage[no-math]{fontspec}
+\usepackage{mathspec}
 \usepackage{tikz}
 
 \usetikzlibrary{arrows.meta}
@@ -12,13 +11,9 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes.geometric}
 
-\newcommand{\mat}[1]{\bm{#1}}
-\newcommand{\Tr}{^{\top}}
-\newcommand{\vc}[1]{\bm{#1}}
-
-%\setmainfont{Liberation Sans}
-\newlength{\mywidth}
-\newlength{\myheight}
+\setmainfont{Noto Serif}
+\setsansfont{Open Sans}
+\setmathfont(Digits,Latin,Greek){Noto Serif}
 
 \makeatletter
 \DeclareRobustCommand{\rvdots}{%
