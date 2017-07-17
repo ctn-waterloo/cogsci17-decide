@@ -12,6 +12,7 @@
 \usepackage{tcolorbox}
 
 \tcbuselibrary{raster}
+\tcbuselibrary{skins}
 
 \setmainfont{Noto Serif}
 \setsansfont{Open Sans}
@@ -29,7 +30,8 @@
 \setbeamertemplate{navigation symbols}{}
 
 \tcbset{
-    boxsep=5mm, titlerule=0mm,
+    skin=enhanced,
+    boxsep=5mm, titlerule=0mm, titlerule style={white,line width=0mm},
     colback=white, colframe=black, arc=0mm,
     fonttitle=\bfseries,
     coltitle=black, colbacktitle=white,
@@ -68,7 +70,7 @@
     \vspace*{20mm}
 
     \begin{tcbraster}[raster columns=4, raster column skip=10mm, raster row skip=10mm, raster equal height=rows, raster force size=false]
-        \begin{tcolorbox}[title=Motivation, add to width=-2cm]
+        \begin{tcolorbox}[adjusted title=Motivation, add to width=-2cm]
             \begin{itemize}
                 \item Investigate WTA mechanisms in the context of neurally plausible cognitive modelling
                 \item Implement using spiking neurons
@@ -76,7 +78,7 @@
                 \item Allow for integration into larger scale networks
             \end{itemize}
         \end{tcolorbox}
-        \begin{tcolorbox}[title=Neural Engineering Framework, add to width=5cm]
+        \begin{tcolorbox}[adjusted title=Neural Engineering Framework, add to width=5cm]
             \begin{itemize}
                 \item \emph{Representation} in spiking neurons defined by encoding
                         $a_i(t) = G_i\left[a_i e_i x(t) + J_i^{\mathrm{bias}} \right]$
@@ -89,7 +91,7 @@
                     \end{equation*}
             \end{itemize}
         \end{tcolorbox}
-        \begin{tcolorbox}[title=Benchmarks, add to width=-3cm]
+        \begin{tcolorbox}[adjusted title=Benchmarks, add to width=-3cm]
             \begin{itemize}
                 \item Ability to provide a clear output (single output above \num{0.15}, stable over at least \SI{1}{\second})
                 \item Correctness (output corresponds to strongest input)
@@ -97,7 +99,7 @@
                 \item Transient outputs before final decision is reached
             \end{itemize}
         \end{tcolorbox}
-        \begin{tcolorbox}[title=Conclusions, add to width=0cm]
+        \begin{tcolorbox}[adjusted title=Conclusions, add to width=0cm]
             \begin{itemize}
                 \item The two WTA mechanisms are best suited for different purposes
                 \item LCA network:
