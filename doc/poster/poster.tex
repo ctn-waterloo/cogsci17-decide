@@ -2,7 +2,7 @@
 
 %\usepackage{microtype}
 
-\usepackage[orientation=landscape,size=a0,scale=1.5]{beamerposter}
+\usepackage[orientation=landscape,size=a0,scale=1.7]{beamerposter}
 \usepackage{calc}
 \usepackage{commath}
 \usepackage[no-math]{fontspec}
@@ -68,7 +68,7 @@
     \vspace*{20mm}
 
     \begin{tcbraster}[raster columns=4, raster column skip=10mm, raster row skip=10mm, raster equal height=rows, raster force size=false]
-        \begin{tcolorbox}[title=Motivation, add to width=-5cm]
+        \begin{tcolorbox}[title=Motivation, add to width=-2cm]
             \begin{itemize}
                 \item Investigate WTA mechanisms in the context of neurally plausible cognitive modelling
                 \item Implement using spiking neurons
@@ -76,14 +76,12 @@
                 \item Allow for integration into larger scale networks
             \end{itemize}
         \end{tcolorbox}
-        \begin{tcolorbox}[title=Neural Engineering Framework, add to width=13cm]
+        \begin{tcolorbox}[title=Neural Engineering Framework, add to width=5cm]
             \begin{itemize}
                 \item \emph{Representation} in spiking neurons defined by encoding
-                    \begin{equation*}
-                        a_i(t) = G_i\left[a_i e_i x(t) + J_i^{\mathrm{bias}} \right]
-                        \text{ and decoding }
-                        \hat{x}(t) = \sum_i d_i \left[(a_i * h)(t) \right]
-                    \end{equation*}
+                        $a_i(t) = G_i\left[a_i e_i x(t) + J_i^{\mathrm{bias}} \right]$
+                        and decoding
+                        $\hat{x}(t) = \sum_i d_i \left[(a_i * h)(t) \right]$
                 \item \emph{Transformation} by decoding weights $d_i$ minimizing $E_{f(x)} = \abs{f(x) - \hat{x}}$
                 \item \emph{Dynamics} by recurrent transformation
                     \begin{equation*}
@@ -91,7 +89,7 @@
                     \end{equation*}
             \end{itemize}
         \end{tcolorbox}
-        \begin{tcolorbox}[title=Benchmarks, add to width=-5cm]
+        \begin{tcolorbox}[title=Benchmarks, add to width=-3cm]
             \begin{itemize}
                 \item Ability to provide a clear output (single output above \num{0.15}, stable over at least \SI{1}{\second})
                 \item Correctness (output corresponds to strongest input)
@@ -99,7 +97,7 @@
                 \item Transient outputs before final decision is reached
             \end{itemize}
         \end{tcolorbox}
-        \begin{tcolorbox}[title=Conclusions, add to width=-3cm]
+        \begin{tcolorbox}[title=Conclusions, add to width=0cm]
             \begin{itemize}
                 \item The two WTA mechanisms are best suited for different purposes
                 \item LCA network:
@@ -123,7 +121,7 @@
                 {\tiny Usher, M., \& McClelland, J.~L. (2001). The time course of perceptual choice: THe leaky, competing accumulator model. \textit{Psychological Review}, 108(3), 550--592.\par}
             \end{minipage}
             \hfill
-            \raisebox{-0.5\height}{\includegraphics[scale=3]{lca-sketch}}
+            \raisebox{-0.5\height}{\includegraphics[scale=2.9]{lca-sketch}}
             \hfill
             \raisebox{-0.5\height}{\includegraphics[trim=0 0 0 80]{lca}}
         \end{tcolorbox}
@@ -137,7 +135,7 @@
                 \end{align*}
             \end{minipage}
             \hfill
-            \raisebox{-0.5\height}{\includegraphics[scale=3]{ia-sketch}}
+            \raisebox{-0.5\height}{\includegraphics[scale=2.9]{ia-sketch}}
             \hfill
             \raisebox{-0.5\height}{\includegraphics[trim=0 0 0 80]{ia}}
         \end{tcolorbox}
