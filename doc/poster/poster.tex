@@ -91,12 +91,12 @@
                     \end{equation*}
             \end{itemize}
         \end{tcolorbox}
-        \begin{tcolorbox}[adjusted title=Benchmarks, add to width=-3cm]
+        \begin{tcolorbox}[adjusted title=Definitions, add to width=-3cm]
             \begin{itemize}
-                \item Ability to provide a clear output (single output above \num{0.15}, stable over at least \SI{1}{\second})
-                \item Correctness (output corresponds to strongest input)
-                \item Time required to reach a decision
-                \item Transient outputs before final decision is reached
+                \item \textbf{Clear:} single output above \num{0.15}, stable over at least  \SI{1}{\second}
+                \item \textbf{Correct:} output corresponds to strongest input
+                \item \textbf{Input magnitude:} Magnitude of target input
+                \item \textbf{Target separation:} Separation of target input from non-target inputs 
             \end{itemize}
         \end{tcolorbox}
         \begin{tcolorbox}[adjusted title=Conclusions, add to width=0cm]
@@ -125,6 +125,8 @@
             \hfill
             \raisebox{-0.5\height}{\includegraphics[scale=2.9]{lca-sketch}}
             \hfill
+            \raisebox{-0.5\height}{\includegraphics[trim=0 0 0 80]{lca-example}}
+            \hspace{1.5cm}
             \raisebox{-0.5\height}{\includegraphics[trim=0 0 0 80]{lca}}
         \end{tcolorbox}
         \begin{tcolorbox}[raster multicolumn=4,title=Independent Accumulators (IA),halign title=left]
@@ -139,6 +141,8 @@
             \hfill
             \raisebox{-0.5\height}{\includegraphics[scale=2.9]{ia-sketch}}
             \hfill
+            \raisebox{-0.5\height}{\includegraphics[trim=0 0 0 80]{ia-example}}
+            \hspace{1.5cm}
             \raisebox{-0.5\height}{\includegraphics[trim=0 0 0 80]{ia}}
         \end{tcolorbox}
     \end{tcbraster}
